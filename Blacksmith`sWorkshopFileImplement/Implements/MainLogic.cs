@@ -6,6 +6,8 @@ using Blacksmith_sWorkshopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
+
 
 namespace Blacksmith_sWorkshopFileImplement.Implements
 {
@@ -18,14 +20,7 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
         }
         public void CreateOrder(OrderBindingModel model)
         {
-            int maxId = 0;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].Id > maxId)
-                {
-                    maxId = source.Orders[i].Id;
-                }
-            }
+            int maxId = source.Orders.Count > 0 ? source.Orders.Max(rec => rec.Id) : 0;
             source.Orders.Add(new Order
             {
                 Id = maxId + 1,
@@ -39,98 +34,61 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
 
         public void FinishOrder(OrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].Id == model.Id)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            Order order = source.Orders.FirstOrDefault(ord => ord.Id == model.Id);
+            if (order == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].Status != OrderStatus.Выполняется)
+            if (order.Status != OrderStatus.Выполняется)
             {
                 throw new Exception("Заказ не в статусе \"Выполняется\"");
             }
-            source.Orders[index].Status = OrderStatus.Готов;
+            order.Status = OrderStatus.Готов;
         }
 
         public List<OrderViewModel> GetOrders()
         {
-            List<OrderViewModel> result = new List<OrderViewModel>();
-            for (int i = 0; i < source.Orders.Count; ++i)
+            List<OrderViewModel> orders = source.Orders.Select(ord => new OrderViewModel
             {
-                string productName = string.Empty;
-                for (int j = 0; j < source.Products.Count; ++j)
-                {
-                    if (source.Products[j].Id == source.Orders[i].ProductId)
-                    {
-                        productName = source.Products[j].ProductName;
-                        break;
-                    }
-                }
-                result.Add(new OrderViewModel
-                {
-                    Id = source.Orders[i].Id,
-                    ProductId = source.Orders[i].ProductId,
-                    ProductName = productName,
-                    Count = source.Orders[i].Count,
-                    Sum = source.Orders[i].Sum,
-                    DateCreate = source.Orders[i].DateCreate,
-                    DateImplement = source.Orders[i].DateImplement,
-                    Status = source.Orders[i].Status
-                });
-            }
-            return result;
+                Id = ord.Id,
+                ProductId = ord.ProductId,
+                ProductName = source.Products.FirstOrDefault(rec => rec.Id == ord.ProductId).ProductName,
+                Count = ord.Count,
+                Sum = ord.Sum,
+                DateCreate = ord.DateCreate,
+                DateImplement = ord.DateImplement,
+                Status = ord.Status
+            }).ToList();           
+            return orders;
         }
 
         public void PayOrder(OrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].Id == model.Id)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            Order order = source.Orders.FirstOrDefault(ord => ord.Id == model.Id);
+            if (order == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].Status != OrderStatus.Готов)
+            if (order.Status != OrderStatus.Готов)
             {
                 throw new Exception("Заказ не в статусе \"Готов\"");
             }
-            source.Orders[index].Status = OrderStatus.Оплачен;
+            order.Status = OrderStatus.Оплачен;
         }
 
         public void TakeOrderInWork(OrderBindingModel model)
         {
-            int index = -1;
-            for (int i = 0; i < source.Orders.Count; ++i)
-            {
-                if (source.Orders[i].Id == model.Id)
-                {
-                    index = i;
-                    break;
-                }
-            }
-            if (index == -1)
+            Order order = source.Orders.FirstOrDefault(ord => ord.Id == model.Id); 
+            if (order == null)
             {
                 throw new Exception("Элемент не найден");
             }
-            if (source.Orders[index].Status != OrderStatus.Принят)
+            if (order.Status != OrderStatus.Принят)
             {
                 throw new Exception("Заказ не в статусе \"Принят\"");
             }
-            source.Orders[index].DateImplement = DateTime.Now;
-            source.Orders[index].Status = OrderStatus.Выполняется;
+            order.DateImplement = DateTime.Now;
+            order.Status = OrderStatus.Выполняется;
         }
     }
 }
