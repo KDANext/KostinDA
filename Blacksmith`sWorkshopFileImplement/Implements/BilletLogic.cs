@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Blacksmith_sWorkshopFileImplement.Implements
 {
-    class BilletLogic : IBilletLogic
+    public class BilletLogic : IBilletLogic
     {
         private readonly FileDataListSingleton source;
 
