@@ -8,10 +8,8 @@ namespace Blacksmith_sWorkshopBusinessLogic.Intefaces
 {
     public interface IBilletLogic
     {
-        List<BilletViewModel> GetList();
-        BilletViewModel GetElement(int id);
-        void AddElement(BilletBindingModel model);
-        void UpdElement(BilletBindingModel model);
-        void DelElement(int id);
+        List<BilletViewModel> Read(BilletBindingModel model);
+        void CreateOrUpdate(BilletBindingModel model);
+        void Delete(BilletBindingModel model);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Blacksmith_sWorkshopBusinessLogic.Intefaces;
+﻿using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
+using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopListImplement.Implements;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,13 @@ namespace Blacksmith_sWorkshopView
         private static IUnityContainer BuildUnityContainer()
         {
             var currentContainer = new UnityContainer();
-            currentContainer.RegisterType<IBilletLogic, BilletLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IProductLogic, ProductLogic>(new HierarchicalLifetimeManager());
-            currentContainer.RegisterType<IMainLogic, MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IBilletLogic, BilletLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IProductLogic, ProductLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

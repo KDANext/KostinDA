@@ -2,9 +2,8 @@
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Drawing; 
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,71 +16,50 @@ namespace Blacksmith_sWorkshopView
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-
-        public ProductBilletViewModel ModelView { get; set; }
-
-        private readonly IBilletLogic logic;
-
+        public int Id
+        {
+            get { return Convert.ToInt32(comboBoxBillet.SelectedValue); }
+            set { comboBoxBillet.SelectedValue = value; }
+        }
+        public string BilletName { get { return comboBoxBillet.Text; } }
+        public int Count
+        {
+            get { return Convert.ToInt32(textBoxCount.Text); }
+            set
+            {
+                textBoxCount.Text = value.ToString();
+            }
+        }
         public FormProductBillet(IBilletLogic logic)
         {
-            InitializeComponent(); this.logic = logic;
-        }
-
-        private void FormProductBillet_Load(object sender, EventArgs e)
-        {
-            try
+            InitializeComponent();
+            List<BilletViewModel> list = logic.Read(null);
+            if (list != null)
             {
-                List<BilletViewModel> list = logic.GetList();
-                if (list != null)
-                {
-                    comboBoxBillet.DisplayMember = "BilletName";
-                    comboBoxBillet.ValueMember = "Id";
-                    comboBoxBillet.DataSource = list;
-                    comboBoxBillet.SelectedItem = null;
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            if (ModelView != null)
-            {
-                comboBoxBillet.Enabled = false;
-                comboBoxBillet.SelectedValue = ModelView.BilletId;
-                textBoxCount.Text = ModelView.Count.ToString();
+                comboBoxBillet.DisplayMember = "BilletName";
+                comboBoxBillet.ValueMember = "Id";
+                comboBoxBillet.DataSource = list;
+                comboBoxBillet.SelectedItem = null;
             }
         }
-
-        private void buttonSave_Click(object sender, EventArgs e)
+        private void ButtonSave_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(textBoxCount.Text))
             {
-                MessageBox.Show("Заполните поле Количество", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Заполните поле Количество", "Ошибка",
+               MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if (comboBoxBillet.SelectedValue == null) {
-                MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            if (comboBoxBillet.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите компонент", "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
                 return;
             }
-            try
-            {
-                if (ModelView == null)
-                {
-                    ModelView = new ProductBilletViewModel
-                    {
-                        BilletId = Convert.ToInt32(comboBoxBillet.SelectedValue),BilletName = comboBoxBillet.Text,Count = Convert.ToInt32(textBoxCount.Text)
-                    };
-                }
-                else { ModelView.Count = Convert.ToInt32(textBoxCount.Text); }
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information); DialogResult = DialogResult.OK; Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            DialogResult = DialogResult.OK;
+            Close();
         }
-        
-        private void buttonCancel_Click(object sender, EventArgs e)
+        private void ButtonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
             Close();

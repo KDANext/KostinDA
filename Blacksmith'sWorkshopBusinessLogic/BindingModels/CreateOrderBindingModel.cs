@@ -4,11 +4,10 @@ using System.Text;
 
 namespace Blacksmith_sWorkshopBusinessLogic.BindingModels
 {
-    public class ProductBilletBindingModel
+    public class CreateOrderBindingModel
     {
-        public int Id { get; set; } 
         public int ProductId { get; set; }
-        public int BilletId { get; set; }
         public int Count { get; set; }
+        public decimal Sum { get; set; }
     }
 }

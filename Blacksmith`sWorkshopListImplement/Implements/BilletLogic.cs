@@ -11,90 +11,87 @@ namespace Blacksmith_sWorkshopListImplement.Implements
     public class BilletLogic : IBilletLogic
     {
         private readonly DataListSingleton source;
-
         public BilletLogic()
         {
             source = DataListSingleton.GetInstance();
         }
-
-        public List<BilletViewModel> GetList()
+        public void CreateOrUpdate(BilletBindingModel model)
         {
-            List<BilletViewModel> result = new List<BilletViewModel>();
-            for (int i = 0; i < source.Billets.Count; ++i)
+            Billet tempComponent = model.Id.HasValue ? null : new Billet
             {
-                result.Add(new BilletViewModel
-                {
-                    Id = source.Billets[i].Id,
-                    BilletName = source.Billets[i].BilletName
-                });
-            }
-            return result;
-        }
-
-        public BilletViewModel GetElement(int id)
-        {
-            for (int i = 0; i < source.Billets.Count; ++i)
+                Id = 1
+            };
+            foreach (var billet in source.Billets)
             {
-                if (source.Billets[i].Id == id)
-                {
-                    return new BilletViewModel
-                    {
-                        Id = source.Billets[i].Id,
-                        BilletName = source.Billets[i].BilletName
-                    };
-                }
-            }
-            throw new Exception("Элемент не найден");
-        }
-
-        public void AddElement(BilletBindingModel model)
-        {
-            int maxId = 0; for (int i = 0; i < source.Billets.Count; ++i)
-            {
-                if (source.Billets[i].Id > maxId)
-                {
-                    maxId = source.Billets[i].Id;
-                }
-                if (source.Billets[i].BilletName == model.BilletName)
+                if (billet.BilletName == model.BilletName && billet.Id != model.Id)
                 {
                     throw new Exception("Уже есть компонент с таким названием");
                 }
-            }
-            source.Billets.Add(new Billet
-            {
-                Id = maxId + 1,
-                BilletName = model.BilletName
-            });
-        }
-
-        public void UpdElement(BilletBindingModel model)
-        {
-            int index = -1; for (int i = 0; i < source.Billets.Count; ++i)
-            {
-                if (source.Billets[i].Id == model.Id) { index = i; }
-                if (source.Billets[i].BilletName == model.BilletName && source.Billets[i].Id != model.Id)
+                if (!model.Id.HasValue && billet.Id >= tempComponent.Id)
                 {
-                    throw new Exception("Уже есть компонент с таким названием");
+                    tempComponent.Id = billet.Id + 1;
+                }
+                else if (model.Id.HasValue && billet.Id == model.Id)
+                {
+                    tempComponent = billet;
                 }
             }
-            if (index == -1)
+            if (model.Id.HasValue)
             {
-                throw new Exception("Элемент не найден");
+                if (tempComponent == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, tempComponent);
             }
-            source.Billets[index].BilletName = model.BilletName;
-        }
+            else
+            {
+                source.Billets.Add(CreateModel(model, tempComponent));
+            }
 
-        public void DelElement(int id)
+        }
+        public void Delete(BilletBindingModel model)
         {
             for (int i = 0; i < source.Billets.Count; ++i)
             {
-                if (source.Billets[i].Id == id)
+                if (source.Billets[i].Id == model.Id.Value)
                 {
                     source.Billets.RemoveAt(i);
                     return;
                 }
             }
             throw new Exception("Элемент не найден");
+        }
+        public List<BilletViewModel> Read(BilletBindingModel model)
+        {
+            List<BilletViewModel> result = new List<BilletViewModel>();
+            foreach (var component in source.Billets)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+        private Billet CreateModel(BilletBindingModel model, Billet billet)
+        {
+            billet.BilletName = model.BilletName;
+            return billet;
+        }
+        private BilletViewModel CreateViewModel(Billet component)
+        {
+            return new BilletViewModel
+            {
+                Id = component.Id,
+                BilletName = component.BilletName
+            };
         }
     }
 }

@@ -6,10 +6,11 @@ using System.Text;
 
 namespace Blacksmith_sWorkshopBusinessLogic.Intefaces
 {
-    public interface IProductLogic
+    public interface IOrderLogic
     {
-        List<ProductViewModel> Read(ProductBindingModel model);
-        void CreateOrUpdate(ProductBindingModel model);
-        void Delete(ProductBindingModel model);
+        List<OrderViewModel> Read(OrderBindingModel model);
+        void CreateOrUpdate(OrderBindingModel model);
+        void Delete(OrderBindingModel model);
+
     }
 }

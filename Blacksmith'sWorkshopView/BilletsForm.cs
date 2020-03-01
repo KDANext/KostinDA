@@ -1,7 +1,6 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -9,14 +8,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
+using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 
 namespace Blacksmith_sWorkshopView
 {
-    public partial class BilletsForm : Form
+    public partial class FormBillets : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
         private readonly IBilletLogic logic;
-        public BilletsForm(IBilletLogic logic)
+        public FormBillets(IBilletLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
@@ -29,7 +30,8 @@ namespace Blacksmith_sWorkshopView
         {
             try
             {
-                var list = logic.GetList(); if (list != null)
+                var list = logic.Read(null);
+                if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
@@ -38,13 +40,14 @@ namespace Blacksmith_sWorkshopView
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
-        }
 
+        }
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<BilletForm>();
+            var form = Container.Resolve<FormBillet>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
@@ -54,7 +57,8 @@ namespace Blacksmith_sWorkshopView
         private void buttonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
-            { var form = Container.Resolve<BilletForm>();
+            {
+                var form = Container.Resolve<FormBillet>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -67,21 +71,27 @@ namespace Blacksmith_sWorkshopView
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    int id =
+                   Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.DelElement(id);
-                    } catch (Exception ex)
-                    { MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        logic.Delete(new BilletBindingModel { Id = id });
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
                     }
                     LoadData();
                 }
             }
         }
 
-        private void buttonRef_Click(object sender, EventArgs e) {
+        private void buttonRef_Click(object sender, EventArgs e)
+        {
             LoadData();
         }
     }

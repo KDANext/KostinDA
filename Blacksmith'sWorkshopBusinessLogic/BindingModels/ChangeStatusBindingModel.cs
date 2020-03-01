@@ -4,9 +4,8 @@ using System.Text;
 
 namespace Blacksmith_sWorkshopBusinessLogic.BindingModels
 {
-    public class BilletBindingModel
+    public class ChangeStatusBindingModel
     {
-        public int? Id { get; set; }
-        public string BilletName { get; set; }
+        public int OrderId { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Blacksmith_sWorkshopView
 {
-    partial class BilletForm
+    partial class FormBillet
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -81,7 +81,6 @@
             this.Controls.Add(this.label1);
             this.Name = "BilletForm";
             this.Text = "Заготовка";
-            this.Load += new System.EventHandler(this.BilletForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

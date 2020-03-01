@@ -1,9 +1,10 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -21,9 +22,9 @@ namespace Blacksmith_sWorkshopView
 
         private readonly IProductLogic logicP;
 
-        private readonly IMainLogic logicM;
+        private readonly MainLogic logicM;
 
-        public FormCreateOrder(IProductLogic logicP, IMainLogic logicM)
+        public FormCreateOrder(IProductLogic logicP, MainLogic logicM)
         {
             InitializeComponent();
             this.logicP = logicP;
@@ -34,11 +35,12 @@ namespace Blacksmith_sWorkshopView
         {
             try
             {
-                var listP = logicP.GetList(); if (listP != null)
+                List<ProductViewModel> list = logicP.Read(null);
+                if (list != null)
                 {
                     comboBoxProduct.DisplayMember = "ProductName";
                     comboBoxProduct.ValueMember = "Id";
-                    comboBoxProduct.DataSource = listP;
+                    comboBoxProduct.DataSource = list;
                     comboBoxProduct.SelectedItem = null;
                 }
             }
@@ -55,11 +57,17 @@ namespace Blacksmith_sWorkshopView
                 try
                 {
                     int id = Convert.ToInt32(comboBoxProduct.SelectedValue);
-                    ProductViewModel product = logicP.GetElement(id);
+                    ProductViewModel product = logicP.Read(new ProductBindingModel
+                    {
+                        Id = id
+                    })?[0];
                     int count = Convert.ToInt32(textBoxCount.Text);
-                    textBoxSum.Text = (count * product.Price).ToString(); } catch (Exception ex)
+                    textBoxSum.Text = (count * product?.Price ?? 0).ToString();
+                }
+                catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                   MessageBoxIcon.Error);
                 }
             }
         }
@@ -88,14 +96,16 @@ namespace Blacksmith_sWorkshopView
             }
             try
             {
-                logicM.CreateOrder(new OrderBindingModel
+                logicM.CreateOrder(new CreateOrderBindingModel
                 {
                     ProductId = Convert.ToInt32(comboBoxProduct.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
                     Sum = Convert.ToDecimal(textBoxSum.Text)
                 });
-                MessageBox.Show("Сохранение прошло успешно", "Сообщение", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                DialogResult = DialogResult.OK; Close();
+                MessageBox.Show("Сохранение прошло успешно", "Сообщение",
+               MessageBoxButtons.OK, MessageBoxIcon.Information);
+                DialogResult = DialogResult.OK;
+                Close();
             }
             catch (Exception ex)
             {

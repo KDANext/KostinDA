@@ -4,7 +4,6 @@ using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopListImplement.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blacksmith_sWorkshopListImplement.Implements
 {
@@ -15,243 +14,51 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         {
             source = DataListSingleton.GetInstance();
         }
-        public List<ProductViewModel> GetList()
+        public void CreateOrUpdate(ProductBindingModel model)
         {
-            List<ProductViewModel> result = new List<ProductViewModel>();
-            for (int i = 0; i < source.Products.Count; ++i)
+            Product tempProduct = model.Id.HasValue ? null : new Product { Id = 1 };
+            foreach (var product in source.Products)
             {
-                // требуется дополнительно получить список компонентов для изделия и их количество
-            List<ProductBilletViewModel> productBillets = new List<ProductBilletViewModel>();
-                for (int j = 0; j < source.ProductBillets.Count; ++j)
+                if (product.ProductName == model.ProductName && product.Id != model.Id)
                 {
-                    if (source.ProductBillets[j].ProductId == source.Products[i].Id)
-                    {
-                        string billetName = string.Empty;
-                        for (int k = 0; k < source.Billets.Count; ++k)
-                        {
-                            if (source.ProductBillets[j].BilletId == source.Billets[k].Id)
-                            {
-                                billetName = source.Billets[k].BilletName;
-                                break;
-                            }
-                        }
-                        productBillets.Add(new ProductBilletViewModel
-                        {
-                             Id = source.ProductBillets[j].Id,
-                             ProductId = source.ProductBillets[j].ProductId,
-                             BilletId = source.ProductBillets[j].BilletId,
-                             BilletName = billetName,
-                             Count = source.ProductBillets[j].Count
-                         });
-                    }
+                    throw new Exception("Уже есть изделие с таким названием");
                 }
-                result.Add(new ProductViewModel
+                if (!model.Id.HasValue && product.Id >= tempProduct.Id)
                 {
-                    Id = source.Products[i].Id,
-                    ProductName = source.Products[i].ProductName,
-                    Price = source.Products[i].Price,
-                    ProductBillets = productBillets
-                });
+                    tempProduct.Id = product.Id + 1;
+                }
+                else if (model.Id.HasValue && product.Id == model.Id)
+                {
+                    tempProduct = product;
+                }
             }
-            return result;
+            if (model.Id.HasValue)
+            {
+                if (tempProduct == null)
+                {
+                    throw new Exception("Элемент не найден");
+                }
+                CreateModel(model, tempProduct);
+            }
+            else
+            {
+                source.Products.Add(CreateModel(model, tempProduct));
+            }
         }
-        public ProductViewModel GetElement(int id)
-        {
-            for (int i = 0; i < source.Products.Count; ++i)
-            {
-                // требуется дополнительно получить список компонентов для изделия и их количество
-                List<ProductBilletViewModel> productBillets = new List<ProductBilletViewModel>();
-                for (int j = 0; j < source.ProductBillets.Count; ++j)
-                {
-                    if (source.ProductBillets[j].ProductId == source.Products[i].Id)
-                    {
-                        string billetName = string.Empty;
-                        for (int k = 0; k < source.Billets.Count; ++k)
-                        {
-                            if (source.ProductBillets[j].BilletId ==
-                           source.Billets[k].Id)
-                            {
-                                billetName = source.Billets[k].BilletName;
-                                break;
-                            }
-                        }
-                        productBillets.Add(new ProductBilletViewModel
-                        {
-                            Id = source.ProductBillets[j].Id,
-                            ProductId = source.ProductBillets[j].ProductId,
-                            BilletId = source.ProductBillets[j].BilletId,
-                            BilletName = billetName,
-                            Count = source.ProductBillets[j].Count
-                        });
-                    }
-                }
-                if (source.Products[i].Id == id)
-                {
-                    return new ProductViewModel
-                    {
-                        Id = source.Products[i].Id,
-                        ProductName = source.Products[i].ProductName,
-                        Price = source.Products[i].Price,
-                        ProductBillets = productBillets
-                    };
-                }
-            }
 
-        throw new Exception("Элемент не найден");
-        }
-        public void AddElement(ProductBindingModel model)
-        {
-            int maxId = 0;
-            for (int i = 0; i < source.Products.Count; ++i)
-            {
-                if (source.Products[i].Id > maxId)
-                {
-                    maxId = source.Products[i].Id;
-                }
-                if (source.Products[i].ProductName == model.ProductName)
-                {
-                    throw new Exception("Уже есть изделие с таким названием");
-                }
-            }
-            source.Products.Add(new Product
-            {
-                Id = maxId + 1,
-                ProductName = model.ProductName,
-                Price = model.Price
-            });
-            // компоненты для изделия
-            int maxPCId = 0;
-            for (int i = 0; i < source.ProductBillets.Count; ++i)
-            {
-                if (source.ProductBillets[i].Id > maxPCId)
-                {
-                    maxPCId = source.ProductBillets[i].Id;
-                }
-            }
-            // убираем дубли по компонентам
-            for (int i = 0; i < model.ProductBillets.Count; ++i)
-            {
-                for (int j = 1; j < model.ProductBillets.Count; ++j)
-                {
-                    if (model.ProductBillets[i].BilletId ==
-                    model.ProductBillets[j].BilletId)
-                    {
-                        model.ProductBillets[i].Count +=
-                        model.ProductBillets[j].Count;
-                        model.ProductBillets.RemoveAt(j--);
-                    }
-                }
-            }
-            // добавляем компоненты
-            for (int i = 0; i < model.ProductBillets.Count; ++i)
-            {
-                source.ProductBillets.Add(new ProductBillet
-                {
-                    Id = ++maxPCId,
-                    ProductId = maxId + 1,
-                    BilletId = model.ProductBillets[i].BilletId,
-                    Count = model.ProductBillets[i].Count
-                });
-            }
-        }
-        public void UpdElement(ProductBindingModel model)
-        {
-            int index = -1;
-            for (int i = 0; i < source.Products.Count; ++i)
-            {
-                if (source.Products[i].Id == model.Id)
-                {
-                    index = i;
-                }
-                if (source.Products[i].ProductName == model.ProductName &&
-                source.Products[i].Id != model.Id)
-                {
-                    throw new Exception("Уже есть изделие с таким названием");
-                }
-            }
-            if (index == -1)
-            {
-                throw new Exception("Элемент не найден");
-            }
-            source.Products[index].ProductName = model.ProductName;
-            source.Products[index].Price = model.Price;
-            int maxPCId = 0;
-            for (int i = 0; i < source.ProductBillets.Count; ++i)
-            {
-                if (source.ProductBillets[i].Id > maxPCId)
-                {
-                    maxPCId = source.ProductBillets[i].Id;
-                }
-            }
-            // обновляем существуюущие компоненты
-            for (int i = 0; i < source.ProductBillets.Count; ++i)
-            {
-                if (source.ProductBillets[i].ProductId == model.Id)
-                {
-                    bool flag = true;
-                    for (int j = 0; j < model.ProductBillets.Count; ++j)
-                    {
-                        // если встретили, то изменяем количество
-                        if (source.ProductBillets[i].Id ==
-                        model.ProductBillets[j].Id)
-                        {
-                            source.ProductBillets[i].Count =
-                           model.ProductBillets[j].Count;
-                            flag = false;
-                            break;
-                        }
-                    }
-                    // если не встретили, то удаляем
-                    if (flag)
-                    {
-                        source.ProductBillets.RemoveAt(i--);
-                    }
-                }
-            }
-            // новые записи
-            for (int i = 0; i < model.ProductBillets.Count; ++i)
-            {
-                if (model.ProductBillets[i].Id == 0)
-                {
-                    // ищем дубли
-                    for (int j = 0; j < source.ProductBillets.Count; ++j)
-                    {
-                        if (source.ProductBillets[j].ProductId == model.Id &&
-                        source.ProductBillets[j].BilletId ==
-                       model.ProductBillets[i].BilletId)
-                        {
-                            source.ProductBillets[j].Count += model.ProductBillets[i].Count;
-                            model.ProductBillets[i].Id = source.ProductBillets[j].Id;
-                            break;
-                        }
-                    }
-                    // если не нашли дубли, то новая запись
-                    if (model.ProductBillets[i].Id == 0)
-                    {
-                        source.ProductBillets.Add(new ProductBillet
-                        {
-                            Id = ++maxPCId,
-                            ProductId = model.Id,
-                            BilletId = model.ProductBillets[i].BilletId,
-                            Count = model.ProductBillets[i].Count
-                        });
-                    }
-                }
-            }
-        }
-        public void DelElement(int id)
+        public void Delete(ProductBindingModel model)
         {
             // удаляем записи по компонентам при удалении изделия
             for (int i = 0; i < source.ProductBillets.Count; ++i)
             {
-                if (source.ProductBillets[i].ProductId == id)
+                if (source.ProductBillets[i].ProductId == model.Id)
                 {
                     source.ProductBillets.RemoveAt(i--);
                 }
             }
             for (int i = 0; i < source.Products.Count; ++i)
             {
-                if (source.Products[i].Id == id)
+                if (source.Products[i].Id == model.Id)
                 {
                     source.Products.RemoveAt(i);
                     return;
@@ -259,5 +66,94 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             }
             throw new Exception("Элемент не найден");
         }
+        private Product CreateModel(ProductBindingModel model, Product product)
+        {
+            product.ProductName = model.ProductName;
+            product.Price = model.Price;
+            //обновляем существуюущие компоненты и ищем максимальный идентификатор
+            int maxPCId = 0;
+            for (int i = 0; i < source.ProductBillets.Count; ++i)
+            {
+                if (source.ProductBillets[i].Id > maxPCId)
+                {
+                    maxPCId = source.ProductBillets[i].Id;
+                }
+                if (source.ProductBillets[i].ProductId == product.Id)
+                {
+                    // если в модели пришла запись компонента с таким id
+                    if
+                    (model.ProductBillets.ContainsKey(source.ProductBillets[i].BilletId))
+                    {
+                        // обновляем количество
+                        source.ProductBillets[i].Count = model.ProductBillets[source.ProductBillets[i].BilletId].Item2;
+                        // из модели убираем эту запись, чтобы остались только не просмотренные
+
+                        model.ProductBillets.Remove(source.ProductBillets[i].BilletId);
+                    }
+                    else
+                    {
+                        source.ProductBillets.RemoveAt(i--);
+                    }
+                }
+            }
+            foreach (var pc in model.ProductBillets)
+            {
+                source.ProductBillets.Add(new ProductBillet
+                {
+                    Id = ++maxPCId,
+                    ProductId = product.Id,
+                    BilletId = pc.Key,
+                    Count = pc.Value.Item2
+                });
+            }
+            return product;
+        }
+        public List<ProductViewModel> Read(ProductBindingModel model)
+        {
+            List<ProductViewModel> result = new List<ProductViewModel>();
+            foreach (var component in source.Products)
+            {
+                if (model != null)
+                {
+                    if (component.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(component));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(component));
+            }
+            return result;
+        }
+        private ProductViewModel CreateViewModel(Product product)
+        {
+            // требуется дополнительно получить список компонентов для изделия с названиями и их количество
+            Dictionary<int, (string, int)> productComponents = new Dictionary<int, (string, int)>();
+            foreach (var pc in source.ProductBillets)
+            {
+                if (pc.ProductId == product.Id)
+                {
+                    string componentName = string.Empty;
+                    foreach (var component in source.Billets)
+                    {
+                        if (pc.BilletId == component.Id)
+                        {
+                            componentName = component.BilletName;
+                            break;
+                        }
+                    }
+                    productComponents.Add(pc.BilletId, (componentName, pc.Count));
+                }
+            }
+            return new ProductViewModel
+            {
+                Id = product.Id,
+                ProductName = product.ProductName,
+                Price = product.Price,
+                ProductBillets = productComponents
+            };
+        }
     }
 }
+

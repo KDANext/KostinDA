@@ -1,4 +1,5 @@
-﻿using Blacksmith_sWorkshopBusinessLogic.Intefaces;
+﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,36 +15,38 @@ namespace Blacksmith_sWorkshopView
 {
     public partial class FormProducts : Form
     {
-        [Dependency] public new IUnityContainer Container { get; set; }
+        [Dependency]
+        public new IUnityContainer Container { get; set; }
         private readonly IProductLogic logic;
         public FormProducts(IProductLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
-        }
 
+        }
         private void FormProducts_Load(object sender, EventArgs e)
         {
             LoadData();
         }
-
         private void LoadData()
         {
             try
             {
-                var list = logic.GetList(); if (list != null)
+                var list = logic.Read(null);
+                if (list != null)
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[3].Visible = false;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
         }
-
         private void buttonAdd_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormProduct>();
@@ -52,7 +55,6 @@ namespace Blacksmith_sWorkshopView
                 LoadData();
             }
         }
-
         private void buttonUpd_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
@@ -65,27 +67,28 @@ namespace Blacksmith_sWorkshopView
                 }
             }
         }
-
         private void buttonDel_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                if (MessageBox.Show("Удалить запись", "Вопрос", MessageBoxButtons.YesNo,
+               MessageBoxIcon.Question) == DialogResult.Yes)
                 {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
+                    int id =
+                   Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.DelElement(id);
+                        logic.Delete(new ProductBindingModel { Id = id });
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+                       MessageBoxIcon.Error);
                     }
                     LoadData();
                 }
             }
         }
-
         private void buttonRef_Click(object sender, EventArgs e)
         {
             LoadData();

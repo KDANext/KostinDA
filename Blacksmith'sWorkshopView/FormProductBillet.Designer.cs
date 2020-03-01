@@ -77,7 +77,7 @@
             this.buttonSave.TabIndex = 4;
             this.buttonSave.Text = "Сохранить";
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // buttonCancel
             // 
@@ -87,7 +87,7 @@
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Отмена";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // FormProductBillet
             // 
@@ -102,7 +102,6 @@
             this.Controls.Add(this.label1);
             this.Name = "FormProductBillet";
             this.Text = "Заготовка для изделия";
-            this.Load += new System.EventHandler(this.FormProductBillet_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

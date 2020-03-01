@@ -1,6 +1,6 @@
 ﻿namespace Blacksmith_sWorkshopView
 {
-    partial class BilletsForm
+    partial class FormBillets
     {
         /// <summary>
         /// Required designer variable.
