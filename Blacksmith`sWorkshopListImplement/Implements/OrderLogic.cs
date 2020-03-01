@@ -1,5 +1,4 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
-using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopListImplement.Models;

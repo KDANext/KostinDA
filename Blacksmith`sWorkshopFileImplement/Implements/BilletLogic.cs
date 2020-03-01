@@ -1,7 +1,7 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
-using Blacksmith_sWorkshopListImplement.Models;
+using Blacksmith_sWorkshopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +32,7 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
             }
             else
             {
-                int maxId = source.Billets.Count > 0 ? source.Billets.Max(rec =>
-               rec.Id) : 0;
+                int maxId = source.Billets.Count > 0 ? source.Billets.Max(rec => rec.Id) : 0;
                 element = new Billet { Id = maxId + 1 };
                 source.Billets.Add(element);
             }

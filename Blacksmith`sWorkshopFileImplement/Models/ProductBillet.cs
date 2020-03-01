@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blacksmith_sWorkshopListImplement.Models
+namespace Blacksmith_sWorkshopFileImplement.Models
 {
     public class ProductBillet
     {
