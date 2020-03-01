@@ -1,11 +1,11 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopListImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Blacksmith_sWorkshopListImplement.Implements
 {
@@ -94,14 +94,14 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         }
         private OrderViewModel CreateViewModel(Order order)
         {
-            var dressName = source.Products.FirstOrDefault((n) => n.Id == order.ProductId).ProductName;
+            var productName = source.Products.FirstOrDefault((n) => n.Id == order.ProductId).ProductName;
             return new OrderViewModel
             {
                 Id = order.Id,
                 Count = order.Count,
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
-                ProductName = dressName,
+                ProductName = productName,
                 ProductId = order.ProductId,
                 Status = order.Status,
                 Sum = order.Sum
