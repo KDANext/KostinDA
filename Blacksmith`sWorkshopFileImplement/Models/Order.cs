@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Blacksmith_sWorkshopFileImplement.Models
+namespace Blacksmith_sWorkshopListImplement.Models
 {
     public class Order
     {
