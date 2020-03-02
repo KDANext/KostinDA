@@ -27,7 +27,7 @@ namespace Blacksmith_sWorkshopFileImplement
                 {
                     throw new Exception("Элемент не найден");
                 }
-                order.Status += 1;
+                order.Status = model.Status;
             }
             else
             {
