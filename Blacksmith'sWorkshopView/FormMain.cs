@@ -2,13 +2,6 @@
 using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 
@@ -40,7 +33,8 @@ namespace Blacksmith_sWorkshopView
                 {
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
-                    dataGridView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                    dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
             catch (Exception ex)
