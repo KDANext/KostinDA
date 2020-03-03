@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Blacksmith_sWorkshopBusinessLogic.Enums
-{
-    /// <summary>    
-    /// Статус заказа    
-    /// </summary> 
+﻿namespace Blacksmith_sWorkshopBusinessLogic.Enums
+{ 
     public enum OrderStatus
     {
         Принят = 0,
