@@ -41,157 +41,157 @@ namespace Blacksmith_sWorkshopFileImplement
             SaveProducts();
             SaveProductBillets();
         }
-    private List<Billet> LoadBillets()
-    {
-        var list = new List<Billet>();
-        if (File.Exists(BilletFileName))
+        private List<Billet> LoadBillets()
         {
-            XDocument xDocument = XDocument.Load(BilletFileName);
-            var xElements = xDocument.Root.Elements("Billet").ToList();
-            foreach (var elem in xElements)
+            var list = new List<Billet>();
+            if (File.Exists(BilletFileName))
             {
-                list.Add(new Billet
+                XDocument xDocument = XDocument.Load(BilletFileName);
+                var xElements = xDocument.Root.Elements("Billet").ToList();
+                foreach (var elem in xElements)
                 {
-                    Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                    BilletName = elem.Element("BilletName").Value
-                });
+                    list.Add(new Billet
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        BilletName = elem.Element("BilletName").Value
+                    });
+                }
             }
+            return list;
         }
-        return list;
-    }
-    private List<Order> LoadOrders()
-    {
-        var list = new List<Order>();
-        if (File.Exists(OrderFileName))
+        private List<Order> LoadOrders()
         {
-            XDocument xDocument = XDocument.Load(OrderFileName);
-            var xElements = xDocument.Root.Elements("Order").ToList();
-            foreach (var elem in xElements)
+            var list = new List<Order>();
+            if (File.Exists(OrderFileName))
             {
-                list.Add(new Order
+                XDocument xDocument = XDocument.Load(OrderFileName);
+                var xElements = xDocument.Root.Elements("Order").ToList();
+                foreach (var elem in xElements)
                 {
-                    Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                    ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
-                    Count = Convert.ToInt32(elem.Element("Count").Value),
-                    Sum = Convert.ToDecimal(elem.Element("Sum").Value),
-                    Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
-               elem.Element("Status").Value),
-                    DateCreate =
-               Convert.ToDateTime(elem.Element("DateCreate").Value),
-                    DateImplement =
-               string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null :
-               Convert.ToDateTime(elem.Element("DateImplement").Value),
-                });
+                    list.Add(new Order
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value),
+                        Sum = Convert.ToDecimal(elem.Element("Sum").Value),
+                        Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
+                   elem.Element("Status").Value),
+                        DateCreate =
+                   Convert.ToDateTime(elem.Element("DateCreate").Value),
+                        DateImplement =
+                   string.IsNullOrEmpty(elem.Element("DateImplement").Value) ? (DateTime?)null :
+                   Convert.ToDateTime(elem.Element("DateImplement").Value),
+                    });
+                }
             }
+            return list;
         }
-        return list;
-    }
-    private List<Product> LoadProducts()
-    {
-        var list = new List<Product>();
-        if (File.Exists(ProductFileName))
+        private List<Product> LoadProducts()
         {
-            XDocument xDocument = XDocument.Load(ProductFileName);
-            var xElements = xDocument.Root.Elements("Product").ToList();
-            foreach (var elem in xElements)
+            var list = new List<Product>();
+            if (File.Exists(ProductFileName))
             {
-                list.Add(new Product
+                XDocument xDocument = XDocument.Load(ProductFileName);
+                var xElements = xDocument.Root.Elements("Product").ToList();
+                foreach (var elem in xElements)
                 {
-                    Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                    ProductName = elem.Element("ProductName").Value,
-                    Price = Convert.ToDecimal(elem.Element("Price").Value)
-                });
+                    list.Add(new Product
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ProductName = elem.Element("ProductName").Value,
+                        Price = Convert.ToDecimal(elem.Element("Price").Value)
+                    });
+                }
             }
+            return list;
         }
-        return list;
-    }
-    private List<ProductBillet> LoadProductBillets()
-    {
-        var list = new List<ProductBillet>();
-        if (File.Exists(ProductBilletFileName))
+        private List<ProductBillet> LoadProductBillets()
         {
-            XDocument xDocument = XDocument.Load(ProductBilletFileName);
-            var xElements = xDocument.Root.Elements("ProductBillet").ToList();
-            foreach (var elem in xElements)
+            var list = new List<ProductBillet>();
+            if (File.Exists(ProductBilletFileName))
             {
-                list.Add(new ProductBillet
+                XDocument xDocument = XDocument.Load(ProductBilletFileName);
+                var xElements = xDocument.Root.Elements("ProductBillet").ToList();
+                foreach (var elem in xElements)
                 {
-                    Id = Convert.ToInt32(elem.Attribute("Id").Value),
-                    ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
-                    BilletId = Convert.ToInt32(elem.Element("BilletId").Value),
-                    Count = Convert.ToInt32(elem.Element("Count").Value)
-                });
+                    list.Add(new ProductBillet
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        BilletId = Convert.ToInt32(elem.Element("BilletId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
             }
+            return list;
         }
-        return list;
-    }
-    private void SaveBillets()
-    {
-        if (Billets != null)
+        private void SaveBillets()
         {
-            var xElement = new XElement("Billets");
-            foreach (var Billet in Billets)
+            if (Billets != null)
             {
-                xElement.Add(new XElement("Billet",
-                new XAttribute("Id", Billet.Id),
-                new XElement("BilletName", Billet.BilletName)));
+                var xElement = new XElement("Billets");
+                foreach (var Billet in Billets)
+                {
+                    xElement.Add(new XElement("Billet",
+                    new XAttribute("Id", Billet.Id),
+                    new XElement("BilletName", Billet.BilletName)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(BilletFileName);
             }
-            XDocument xDocument = new XDocument(xElement);
-            xDocument.Save(BilletFileName);
         }
-    }
-    private void SaveOrders()
-    {
-        if (Orders != null)
+        private void SaveOrders()
         {
-            var xElement = new XElement("Orders");
-            foreach (var order in Orders)
+            if (Orders != null)
             {
-                xElement.Add(new XElement("Order",
-                new XAttribute("Id", order.Id),
-                new XElement("ProductId", order.ProductId),
-                new XElement("Count", order.Count),
-                new XElement("Sum", order.Sum),
-                new XElement("Status", order.Status),
-                new XElement("DateCreate", order.DateCreate),
-                new XElement("DateImplement", order.DateImplement)));
+                var xElement = new XElement("Orders");
+                foreach (var order in Orders)
+                {
+                    xElement.Add(new XElement("Order",
+                    new XAttribute("Id", order.Id),
+                    new XElement("ProductId", order.ProductId),
+                    new XElement("Count", order.Count),
+                    new XElement("Sum", order.Sum),
+                    new XElement("Status", order.Status),
+                    new XElement("DateCreate", order.DateCreate),
+                    new XElement("DateImplement", order.DateImplement)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(OrderFileName);
             }
-            XDocument xDocument = new XDocument(xElement);
-            xDocument.Save(OrderFileName);
         }
-    }
-    private void SaveProducts()
-    {
-        if (Products != null)
+        private void SaveProducts()
         {
-            var xElement = new XElement("Products");
-            foreach (var product in Products)
+            if (Products != null)
             {
-                xElement.Add(new XElement("Product",
-                new XAttribute("Id", product.Id),
-                new XElement("ProductName", product.ProductName),
-                new XElement("Price", product.Price)));
+                var xElement = new XElement("Products");
+                foreach (var product in Products)
+                {
+                    xElement.Add(new XElement("Product",
+                    new XAttribute("Id", product.Id),
+                    new XElement("ProductName", product.ProductName),
+                    new XElement("Price", product.Price)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ProductFileName);
             }
-            XDocument xDocument = new XDocument(xElement);
-            xDocument.Save(ProductFileName);
         }
-    }
-    private void SaveProductBillets()
-    {
-        if (ProductBillets != null)
+        private void SaveProductBillets()
         {
-            var xElement = new XElement("ProductBillets");
-            foreach (var productBillet in ProductBillets)
+            if (ProductBillets != null)
             {
-                xElement.Add(new XElement("ProductBillet",
-                new XAttribute("Id", productBillet.Id),
-                new XElement("ProductId", productBillet.ProductId),
-                new XElement("BilletId", productBillet.BilletId),
-                new XElement("Count", productBillet.Count)));
+                var xElement = new XElement("ProductBillets");
+                foreach (var productBillet in ProductBillets)
+                {
+                    xElement.Add(new XElement("ProductBillet",
+                    new XAttribute("Id", productBillet.Id),
+                    new XElement("ProductId", productBillet.ProductId),
+                    new XElement("BilletId", productBillet.BilletId),
+                    new XElement("Count", productBillet.Count)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ProductBilletFileName);
             }
-            XDocument xDocument = new XDocument(xElement);
-            xDocument.Save(ProductBilletFileName);
         }
     }
-}
 }

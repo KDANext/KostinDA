@@ -1,14 +1,8 @@
-﻿using Blacksmith_sWorkshopBusinessLogic.Intefaces;
+﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
-using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 
 namespace Blacksmith_sWorkshopView
 {
