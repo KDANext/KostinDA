@@ -1,7 +1,5 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.Enums;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Blacksmith_sWorkshopFileImplement.Models
 {
