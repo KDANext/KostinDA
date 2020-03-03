@@ -1,5 +1,5 @@
 ﻿namespace Blacksmith_sWorkshopBusinessLogic.Enums
-{ 
+{
     public enum OrderStatus
     {
         Принят = 0,
