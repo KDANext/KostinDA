@@ -9,8 +9,7 @@ namespace Blacksmith_sWorkshopDatebaseImplement
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;Initial
-Catalog=Blacksmith_sWorkshopDatebase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;InitialCatalog=Blacksmith_sWorkshopDatebase;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
