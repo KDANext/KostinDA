@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.1022
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith'sWorkshopView", "Blacksmith'sWorkshopView.csproj", "{427AF80D-C3A3-4047-B794-0D0263A86519}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlacksmithsWorkshopView", "BlacksmithsWorkshopView.csproj", "{427AF80D-C3A3-4047-B794-0D0263A86519}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith'sWorkshopBusinessLogic", "..\Blacksmith'sWorkshopBusinessLogic\Blacksmith'sWorkshopBusinessLogic.csproj", "{AE5C2126-D3C9-42A9-92FE-DC4425D86E5D}"
 EndProject
@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopFileImplement", "..\Blacksmith`sWorkshopFileImplement\Blacksmith`sWorkshopFileImplement.csproj", "{B1840A76-E317-4D72-9D00-1D1194BD096D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith_sWorkshopDatebaseImplement", "Blacksmith_sWorkshopDatebaseImplement\Blacksmith_sWorkshopDatebaseImplement.csproj", "{3AF8F229-89A1-4B0D-9631-54A94401E482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlacksmithsWorkshopDatebaseImplement", "Blacksmith_sWorkshopDatebaseImplement\BlacksmithsWorkshopDatebaseImplement.csproj", "{3AF8F229-89A1-4B0D-9631-54A94401E482}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

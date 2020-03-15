@@ -1,7 +1,7 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.Enums;
 using System;
 
-namespace Blacksmith_sWorkshopFileImplement.Models
+namespace Blacksmith_sWorkshopDatebaseImplement.Models
 {
     public class Order
     {

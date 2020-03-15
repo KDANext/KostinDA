@@ -3,13 +3,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Blacksmith_sWorkshopDatebaseImplement
 {
-    public class Blacksmith_sWorkshopDatebase : DbContext
+    public class BlacksmithsWorkshopDatebase : DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (optionsBuilder.IsConfigured == false)
             {
-                optionsBuilder.UseSqlServer(@"Data Source=HOME\SQLEXPRESS;InitialCatalog=Blacksmith_sWorkshopDatebase;Integrated Security=True;MultipleActiveResultSets=True;");
+                optionsBuilder.UseSqlServer(@"Data Source=localhost\SQLEXPRESS;Initial Catalog=Blacksmith_sWorkshopDatebase;Integrated Security=True;MultipleActiveResultSets=True;");
             }
             base.OnConfiguring(optionsBuilder);
         }
