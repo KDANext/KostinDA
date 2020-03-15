@@ -1,4 +1,4 @@
-﻿namespace Blacksmith_sWorkshopListImplement.Models
+﻿namespace Blacksmith_sWorkshopFileImplement.Models
 {
     public class Billet
     {
