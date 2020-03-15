@@ -28,6 +28,12 @@ namespace Blacksmith_sWorkshopFileImplement
                     throw new Exception("Элемент не найден");
                 }
                 order.Status = model.Status;
+                order.ProductId = model.ProductId;
+                order.Count = model.Count;
+                order.DateCreate = model.DateCreate;
+                order.DateImplement = model.DateImplement;
+                order.Status = model.Status;
+                order.Sum = model.Sum;
             }
             else
             {
