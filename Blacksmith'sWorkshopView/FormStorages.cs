@@ -6,25 +6,27 @@ using Unity;
 
 namespace Blacksmith_sWorkshopView
 {
-    public partial class FormBillets : Form
+    public partial class FormStorages : Form
     {
         [Dependency]
         public new IUnityContainer Container { get; set; }
-        private readonly IBilletLogic logic;
-        public FormBillets(IBilletLogic logic)
+        private readonly IStorageLogic logic;
+        public FormStorages(IStorageLogic logic)
         {
             InitializeComponent();
             this.logic = logic;
+
         }
-        private void FormBillets_Load(object sender, EventArgs e)
+        private void FormStorages_Load(object sender, EventArgs e)
         {
             LoadData();
         }
+
         private void LoadData()
         {
             try
             {
-                var list = logic.Read(null);
+                var list = logic.GetList();
                 if (list != null)
                 {
                     dataGridView.DataSource = list;
@@ -37,22 +39,22 @@ namespace Blacksmith_sWorkshopView
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
                MessageBoxIcon.Error);
             }
-
         }
+
         private void buttonAdd_Click(object sender, EventArgs e)
         {
-            var form = Container.Resolve<FormBillet>();
+            var form = Container.Resolve<FormStorage>();
             if (form.ShowDialog() == DialogResult.OK)
             {
                 LoadData();
             }
         }
 
-        private void buttonUpd_Click(object sender, EventArgs e)
+        private void buttonUpt_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
             {
-                var form = Container.Resolve<FormBillet>();
+                var form = Container.Resolve<FormStorage>();
                 form.Id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                 if (form.ShowDialog() == DialogResult.OK)
                 {
@@ -72,7 +74,7 @@ namespace Blacksmith_sWorkshopView
                    Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
                     try
                     {
-                        logic.Delete(new BilletBindingModel { Id = id });
+                        logic.DelElement(id);
                     }
                     catch (Exception ex)
                     {

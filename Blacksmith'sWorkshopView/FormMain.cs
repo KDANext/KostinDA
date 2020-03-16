@@ -39,7 +39,7 @@ namespace Blacksmith_sWorkshopView
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -52,7 +52,8 @@ namespace Blacksmith_sWorkshopView
         private void изделияToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormProducts>();
-            form.ShowDialog(); }
+            form.ShowDialog();
+        }
 
         private void buttonCreateOrder_Click(object sender, EventArgs e)
         {
@@ -125,6 +126,12 @@ namespace Blacksmith_sWorkshopView
         private void списокИзделийToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormProducts>();
+            form.ShowDialog();
+        }
+
+        private void складыToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
             form.ShowDialog();
         }
     }
