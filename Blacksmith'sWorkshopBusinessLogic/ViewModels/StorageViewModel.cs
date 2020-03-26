@@ -8,6 +8,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.ViewModels
         public int Id { get; set; }
         [DisplayName("Название склада")]
         public string StorageName { get; set; }
-        public List<StorageBilletViewModel> StorageBillets { get; set; }
+        public Dictionary<int, (string, int)> StorageBillets { get; set; }
     }
 }

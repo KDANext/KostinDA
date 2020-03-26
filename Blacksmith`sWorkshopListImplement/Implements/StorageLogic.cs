@@ -15,123 +15,82 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         {
             source = DataListSingleton.GetInstance();
         }
-        public List<StorageViewModel> GetList()
+        public void CreateOrUpdate(StorageBindingModel storage)
         {
-            List<StorageViewModel> result = new List<StorageViewModel>();
-            for (int i = 0; i < source.Storages.Count; ++i)
-            {
-                List<StorageBilletViewModel> StorageBillets = new List<StorageBilletViewModel>();
-                for (int j = 0; j < source.StorageBillets.Count; ++j)
-                {
-                    if (source.StorageBillets[j].StorageId == source.Storages[i].Id)
-                    {
-                        string BilletName = string.Empty;
-                        for (int k = 0; k < source.Billets.Count; ++k)
-                        {
-                            if (source.StorageBillets[j].BilletId ==
-                           source.Billets[k].Id)
-                            {
-                                BilletName = source.Billets[k].BilletName;
-                                break;
-                            }
-                        }
-                        StorageBillets.Add(new StorageBilletViewModel
-                        {
-                            Id = source.StorageBillets[j].Id,
-                            StorageId = source.StorageBillets[j].StorageId,
-                            BilletId = source.StorageBillets[j].BilletId,
-                            BilletName = BilletName,
-                            Count = source.StorageBillets[j].Count
-                        });
-                    }
-                }
-                result.Add(new StorageViewModel
-                {
-                    Id = source.Storages[i].Id,
-                    StorageName = source.Storages[i].StorageName,
-                    StorageBillets = StorageBillets
-                });
-            }
-            return result;
-        }
-        public StorageViewModel GetElement(int? id)
-        {
-            for (int i = 0; i < source.Storages.Count; ++i)
-            {
-                List<StorageBilletViewModel> StorageBillets = new List<StorageBilletViewModel>();
-                for (int j = 0; j < source.StorageBillets.Count; ++j)
-                {
-                    if (source.StorageBillets[j].StorageId == source.Storages[i].Id)
-                    {
-                        string BilletName = string.Empty;
-                        for (int k = 0; k < source.Billets.Count; ++k)
-                        {
-                            if (source.StorageBillets[j].BilletId == source.Billets[k].Id)
-                            {
-                                BilletName = source.Billets[k].BilletName;
-                                break;
-                            }
-                        }
-                        StorageBillets.Add(new StorageBilletViewModel
-                        {
-                            Id = source.StorageBillets[j].Id,
-                            StorageId = source.StorageBillets[j].StorageId,
-                            BilletId = source.StorageBillets[j].BilletId,
-                            BilletName = BilletName,
-                            Count = source.StorageBillets[j].Count
-                        });
-                    }
-                }
-                if (source.Storages[i].Id == id)
-                {
-                    return new StorageViewModel
-                    {
-                        Id = source.Storages[i].Id,
-                        StorageName = source.Storages[i].StorageName,
-                        StorageBillets = StorageBillets
-                    };
-                }
-            }
-            throw new Exception("Элемент не найден");
-        }
-        public void CreateOrUpdate(StorageBindingModel model)
-        {
-            Storage tempStorage = model.Id.HasValue ? null : new Storage
+            Storage tempStorage = storage.Id.HasValue ? null : new Storage
             {
                 Id = 1
             };
             foreach (var s in source.Storages)
             {
-                if (s.StorageName == model.StorageName && s.Id != model.Id)
+                if (s.StorageName == storage.StorageName && s.Id != storage.Id)
                 {
                     throw new Exception("Уже есть склад с таким названием");
                 }
-                if (!model.Id.HasValue && s.Id >= tempStorage.Id)
+                if (!storage.Id.HasValue && s.Id >= tempStorage.Id)
                 {
                     tempStorage.Id = s.Id + 1;
                 }
-                else if (model.Id.HasValue && s.Id == model.Id)
+                else if (storage.Id.HasValue && s.Id == storage.Id)
                 {
                     tempStorage = s;
                 }
             }
-            if (model.Id.HasValue)
+            if (storage.Id.HasValue)
             {
                 if (tempStorage == null)
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(model, tempStorage);
+                CreateModel(storage, tempStorage);
             }
             else
             {
-                source.Storages.Add(CreateModel(model, tempStorage));
+                source.Storages.Add(CreateModel(storage, tempStorage));
             }
         }
-
+        public void Delete(StorageBindingModel model)
+        {
+            // удаляем записи по компонентам при удалении хранилища
+            for (int i = 0; i < source.StorageBillets.Count; ++i)
+            {
+                if (source.StorageBillets[i].StorageId == model.Id)
+                {
+                    source.StorageBillets.RemoveAt(i--);
+                }
+            }
+            for (int i = 0; i < source.Storages.Count; ++i)
+            {
+                if (source.Storages[i].Id == model.Id)
+                {
+                    source.Storages.RemoveAt(i);
+                    return;
+                }
+            }
+            throw new Exception("Элемент не найден");
+        }
+        public List<StorageViewModel> Read(StorageBindingModel model)
+        {
+            List<StorageViewModel> result = new List<StorageViewModel>();
+            foreach (var storage in source.Storages)
+            {
+                if (model != null)
+                {
+                    if (storage.Id == model.Id)
+                    {
+                        result.Add(CreateViewModel(storage));
+                        break;
+                    }
+                    continue;
+                }
+                result.Add(CreateViewModel(storage));
+            }
+            return result;
+        }
         private Storage CreateModel(StorageBindingModel model, Storage storage)
         {
             storage.StorageName = model.StorageName;
+            //обновляем существуюущие компоненты и ищем максимальный идентификатор
             int maxSMId = 0;
             for (int i = 0; i < source.StorageBillets.Count; ++i)
             {
@@ -141,10 +100,14 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 }
                 if (source.StorageBillets[i].StorageId == storage.Id)
                 {
+                    // если в модели пришла запись компонента с таким id
                     if (model.StorageBillets.ContainsKey(source.StorageBillets[i].BilletId))
                     {
-                        source.StorageBillets[i].Count = model.StorageBillets[source.StorageBillets[i].BilletId].Count;
-                        model.StorageBillets.Remove(source.StorageBillets[i].MaterialId);
+                        // обновляем количество
+                        source.StorageBillets[i].Count = model.StorageBillets[source.StorageBillets[i].BilletId].Item2;
+                        // из модели убираем эту запись, чтобы остались только не
+                        //просмотренные
+                        model.StorageBillets.Remove(source.StorageBillets[i].BilletId);
                     }
                     else
                     {
@@ -152,53 +115,46 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                     }
                 }
             }
-            foreach (var sb in model.StorageBillets)
+            if (model.StorageBillets == null) model.StorageBillets = new Dictionary<int, (string, int)>();
+            foreach (var sm in model.StorageBillets)
             {
                 source.StorageBillets.Add(new StorageBillet
                 {
                     Id = ++maxSMId,
                     StorageId = storage.Id,
-                    MaterialId = sb.Key,
-                    Count = sb.Value.Item2
+                    BilletId = sm.Key,
+                    Count = sm.Value.Item2
                 });
             }
             return storage;
         }
-        public void FillStorage(StorageBilletBindingModel model)
+        private StorageViewModel CreateViewModel(Storage storage)
         {
-            int foundItemIndex = -1;
-            for (int i = 0; i < source.StorageBillets.Count; ++i)
+            // требуется дополнительно получить список компонентов для хранилища с
+            // названиями и их количество
+            Dictionary<int, (string, int)> storageBillets = new Dictionary<int, (string, int)>();
+            foreach (var sm in source.StorageBillets)
             {
-                if (source.StorageBillets[i].BilletId == model.BilletId
-                    && source.StorageBillets[i].StorageId == model.StorageId)
+                if (sm.StorageId == storage.Id)
                 {
-                    foundItemIndex = i;
-                    break;
-                }
-            }
-            if (foundItemIndex != -1)
-            {
-                source.StorageBillets[foundItemIndex].Count =
-                    source.StorageBillets[foundItemIndex].Count + model.Count;
-            }
-            else
-            {
-                int maxId = 0;
-                for (int i = 0; i < source.StorageBillets.Count; ++i)
-                {
-                    if (source.StorageBillets[i].Id > maxId)
+                    string componentName = string.Empty;
+                    foreach (var component in source.Billets)
                     {
-                        maxId = source.StorageBillets[i].Id;
+                        if (sm.BilletId == component.Id)
+                        {
+                            componentName = component.BilletName;
+                            break;
+                        }
                     }
+                    storageBillets.Add(sm.BilletId, (componentName, sm.Count));
                 }
-                source.StorageBillets.Add(new StorageBillet
-                {
-                    Id = maxId + 1,
-                    StorageId = model.StorageId,
-                    BilletId = model.BilletId,
-                    Count = model.Count
-                });
             }
+            return new StorageViewModel
+            {
+                Id = storage.Id,
+                StorageName = storage.StorageName,
+                StorageBillets = storageBillets
+            };
         }
     }
 }

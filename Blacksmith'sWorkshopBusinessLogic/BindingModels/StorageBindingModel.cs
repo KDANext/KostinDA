@@ -6,6 +6,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.BindingModels
     {
         public int? Id { get; set; }
         public string StorageName { get; set; }
-        public Dictionary<int,StorageBilletBindingModel> StorageBillets { get; set; }
+        public Dictionary<int, (string, int)> StorageBillets { get; set; }
     }
 }

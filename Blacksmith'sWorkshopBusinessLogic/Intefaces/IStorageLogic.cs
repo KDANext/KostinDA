@@ -9,6 +9,5 @@ namespace Blacksmith_sWorkshopBusinessLogic.Intefaces
         List<StorageViewModel> Read(StorageBindingModel model);
         void CreateOrUpdate(StorageBindingModel model);
         void Delete(StorageBindingModel model);
-        void FillStorage(StorageBilletBindingModel model);
     }
 }
