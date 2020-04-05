@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blacksmith_sWorkshopDatebaseImplement.Implements
+namespace Blacksmith_sWorkshopFileImplement.Implements
 {
     public class ProductLogic : IProductLogic
     {
