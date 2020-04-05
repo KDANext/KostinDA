@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Blacksmith_sWorkshopFileImplement.Models
+namespace Blacksmith_sWorkshopDatebaseImplement.Models
 {
     public class Billet
     {
         public int Id { get; set; }
+        [Required]
         public string BilletName { get; set; }
+        [ForeignKey("BilletId")]
+        public virtual List<ProductBillet> ProductBillets { get; set; }
     }
 }
