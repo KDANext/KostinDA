@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopFileImplement", "..\Blacksmith`sWorkshopFileImplement\Blacksmith`sWorkshopFileImplement.csproj", "{B1840A76-E317-4D72-9D00-1D1194BD096D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlacksmithsWorkshopDatebaseImplement", "Blacksmith_sWorkshopDatebaseImplement\BlacksmithsWorkshopDatebaseImplement.csproj", "{3AF8F229-89A1-4B0D-9631-54A94401E482}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith_sWorkshopDatebaseImplement", "..\Blacksmith_sWorkshopDatebaseImplement\Blacksmith_sWorkshopDatebaseImplement.csproj", "{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{B1840A76-E317-4D72-9D00-1D1194BD096D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1840A76-E317-4D72-9D00-1D1194BD096D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1840A76-E317-4D72-9D00-1D1194BD096D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3AF8F229-89A1-4B0D-9631-54A94401E482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3AF8F229-89A1-4B0D-9631-54A94401E482}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3AF8F229-89A1-4B0D-9631-54A94401E482}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3AF8F229-89A1-4B0D-9631-54A94401E482}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

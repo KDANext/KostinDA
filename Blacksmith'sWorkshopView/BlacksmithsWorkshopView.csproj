@@ -315,6 +315,10 @@
       <Project>{ae5c2126-d3c9-42a9-92fe-dc4425d86e5d}</Project>
       <Name>Blacksmith%27sWorkshopBusinessLogic</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Blacksmith_sWorkshopDatebaseImplement\Blacksmith_sWorkshopDatebaseImplement.csproj">
+      <Project>{5c38a4e8-5c84-4258-a48e-1a7dfc42b23d}</Project>
+      <Name>Blacksmith_sWorkshopDatebaseImplement</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Blacksmith`sWorkshopFileImplement\Blacksmith`sWorkshopFileImplement.csproj">
       <Project>{b1840a76-e317-4d72-9d00-1d1194bd096d}</Project>
       <Name>Blacksmith`sWorkshopFileImplement</Name>
@@ -322,10 +326,6 @@
     <ProjectReference Include="..\Blacksmith`sWorkshopListImplement\Blacksmith`sWorkshopListImplement.csproj">
       <Project>{66F543C9-8AA8-4DAE-B53E-747EB933B710}</Project>
       <Name>Blacksmith`sWorkshopListImplement</Name>
-    </ProjectReference>
-    <ProjectReference Include="Blacksmith_sWorkshopDatebaseImplement\BlacksmithsWorkshopDatebaseImplement.csproj">
-      <Project>{3af8f229-89a1-4b0d-9631-54a94401e482}</Project>
-      <Name>BlacksmithsWorkshopDatebaseImplement</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

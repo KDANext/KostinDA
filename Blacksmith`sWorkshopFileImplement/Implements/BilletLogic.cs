@@ -1,12 +1,12 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
-using Blacksmith_sWorkshopDatebaseImplement.Models;
+using Blacksmith_sWorkshopFileImplement.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blacksmith_sWorkshopDatebaseImplement.Implements
+namespace Blacksmith_sWorkshopFileImplement.Implements
 {
     public class BilletLogic : IBilletLogic
     {
