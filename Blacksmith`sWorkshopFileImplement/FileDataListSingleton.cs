@@ -15,16 +15,22 @@ namespace Blacksmith_sWorkshopFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string ProductFileName = "Product.xml";
         private readonly string ProductBilletFileName = "ProductBillet.xml";
+        private readonly string StorageFileName = "Storage.xml";
+        private readonly string StorageBilletFileName = "StorageBillet.xml";
         public List<Billet> Billets { get; set; }
         public List<Order> Orders { get; set; }
         public List<Product> Products { get; set; }
         public List<ProductBillet> ProductBillets { get; set; }
+        public List<Storage> Storages { set; get; }
+        public List<StorageBillet> StorageBillets { set; get; }
         private FileDataListSingleton()
         {
             Billets = LoadBillets();
             Orders = LoadOrders();
             Products = LoadProducts();
             ProductBillets = LoadProductBillets();
+            Storages = LoadStorages();
+            StorageBillets = LoadStorageBillets();
         }
         public static FileDataListSingleton GetInstance()
         {
@@ -125,6 +131,45 @@ namespace Blacksmith_sWorkshopFileImplement
             }
             return list;
         }
+        private List<Storage> LoadStorages()
+        {
+            var list = new List<Storage>();
+            if (File.Exists(StorageFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageFileName);
+                var xElements = xDocument.Root.Elements("Storage").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Storage()
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        StorageName = elem.Element("StorageName").Value.ToString()
+                    });
+                }
+            }
+            return list;
+        }
+
+        private List<StorageBillet> LoadStorageBillets()
+        {
+            var list = new List<StorageBillet>();
+            if (File.Exists(StorageBilletFileName))
+            {
+                XDocument xDocument = XDocument.Load(StorageBilletFileName);
+                var xElements = xDocument.Root.Elements("StorageBillet").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new StorageBillet()
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        BilletId = Convert.ToInt32(elem.Element("BilletId").Value),
+                        StorageId = Convert.ToInt32(elem.Element("StorageId").Value),
+                        Count = Convert.ToInt32(elem.Element("Count").Value)
+                    });
+                }
+            }
+            return list;
+        }
         private void SaveBillets()
         {
             if (Billets != null)
@@ -191,6 +236,39 @@ namespace Blacksmith_sWorkshopFileImplement
                 }
                 XDocument xDocument = new XDocument(xElement);
                 xDocument.Save(ProductBilletFileName);
+            }
+        }
+        private void SaveStorages()
+        {
+            if (Storages != null)
+            {
+                var xElement = new XElement("Storages");
+                foreach (var elem in Storages)
+                {
+                    xElement.Add(new XElement("Storage",
+                        new XAttribute("Id", elem.Id),
+                        new XElement("StorageName", elem.StorageName)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageFileName);
+            }
+        }
+
+        private void SaveStorageBillets()
+        {
+            if (StorageBillets != null)
+            {
+                var xElement = new XElement("StorageBillets");
+                foreach (var elem in StorageBillets)
+                {
+                    xElement.Add(new XElement("StorageBillet",
+                        new XAttribute("Id", elem.Id),
+                        new XElement("BilletId", elem.BilletId),
+                        new XElement("StorageId", elem.StorageId),
+                        new XElement("Count", elem.Count)));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(StorageBilletFileName);
             }
         }
     }
