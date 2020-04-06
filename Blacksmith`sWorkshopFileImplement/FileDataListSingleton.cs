@@ -15,17 +15,61 @@ namespace Blacksmith_sWorkshopFileImplement
         private readonly string OrderFileName = "Order.xml";
         private readonly string ProductFileName = "Product.xml";
         private readonly string ProductBilletFileName = "ProductBillet.xml";
+        private readonly string ClientFileName = "Client.xml";
         public List<Billet> Billets { get; set; }
         public List<Order> Orders { get; set; }
         public List<Product> Products { get; set; }
         public List<ProductBillet> ProductBillets { get; set; }
+        public List<Client> Clients { get; set; }
         private FileDataListSingleton()
         {
             Billets = LoadBillets();
             Orders = LoadOrders();
             Products = LoadProducts();
             ProductBillets = LoadProductBillets();
+            Clients = LoadClients();
         }
+
+        private List<Client> LoadClients()
+        {
+            var list = new List<Client>();
+            if (File.Exists(ClientFileName))
+            {
+                XDocument xDocument = XDocument.Load(ClientFileName);
+                var xElements = xDocument.Root.Elements("Client").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Client
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ClientFIO = elem.Element("ClientFIO").Value,
+                        Login = elem.Element("Login").Value,
+                        Password = elem.Element("Password").Value
+                    });
+                }
+            }
+            return list;
+        }
+
+        private void SaveClient()
+        {
+            if (Clients != null)
+            {
+                var xElement = new XElement("Clients");
+                foreach (var Client in Clients)
+                {
+                    xElement.Add(new XElement("Client",
+                    new XAttribute("Id", Client.Id),
+                    new XElement("ClientFIO", Client.ClientFIO),
+                    new XElement("Login",Client.Login),
+                    new XElement("Password", Client.Password)
+                    ));
+                }
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ClientFileName);
+            }
+        }
+
         public static FileDataListSingleton GetInstance()
         {
             if (instance == null)
@@ -40,6 +84,7 @@ namespace Blacksmith_sWorkshopFileImplement
             SaveOrders();
             SaveProducts();
             SaveProductBillets();
+            LoadClients();
         }
         private List<Billet> LoadBillets()
         {

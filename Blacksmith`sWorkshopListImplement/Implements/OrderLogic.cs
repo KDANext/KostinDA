@@ -83,6 +83,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             order.DateCreate = model.DateCreate;
             order.DateImplement = model.DateImplement;
             order.ProductId = model.ProductId;
+            order.ClientId = model.ClientId;
             order.Status = model.Status;
             order.Sum = model.Sum;
             return order;
@@ -90,6 +91,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         private OrderViewModel CreateViewModel(Order order)
         {
             var productName = source.Products.FirstOrDefault((n) => n.Id == order.ProductId).ProductName;
+            var clientFIO = source.Clients.FirstOrDefault((n) => n.Id == order.ClientId).ClientFIO;
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -97,6 +99,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 DateCreate = order.DateCreate,
                 DateImplement = order.DateImplement,
                 ProductName = productName,
+                ClientFIO = clientFIO,
                 ProductId = order.ProductId,
                 Status = order.Status,
                 Sum = order.Sum
