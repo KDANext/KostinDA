@@ -93,23 +93,23 @@
             // списокКомпонентовToolStripMenuItem
             // 
             this.списокКомпонентовToolStripMenuItem.Name = "списокКомпонентовToolStripMenuItem";
-            this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.списокКомпонентовToolStripMenuItem.Text = "Список заготовок";
-            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.списокКомпонентовToolStripMenuItem_Click);
+            this.списокКомпонентовToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.списокКомпонентовToolStripMenuItem.Text = "Прайс лист";
+            this.списокКомпонентовToolStripMenuItem.Click += new System.EventHandler(this.priceListToolStripMenuItem_Click);
             // 
             // заготовкиПоИзделиямToolStripMenuItem
             // 
             this.заготовкиПоИзделиямToolStripMenuItem.Name = "заготовкиПоИзделиямToolStripMenuItem";
-            this.заготовкиПоИзделиямToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.заготовкиПоИзделиямToolStripMenuItem.Text = "Заготовки по изделиям";
-            this.заготовкиПоИзделиямToolStripMenuItem.Click += new System.EventHandler(this.заготовкиПоИзделиямToolStripMenuItem_Click);
+            this.заготовкиПоИзделиямToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.заготовкиПоИзделиямToolStripMenuItem.Text = "Заказы по датам";
+            this.заготовкиПоИзделиямToolStripMenuItem.Click += new System.EventHandler(this.OrdersOnDateToolStripMenuItem_Click);
             // 
             // списокЗаказовToolStripMenuItem
             // 
             this.списокЗаказовToolStripMenuItem.Name = "списокЗаказовToolStripMenuItem";
-            this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.списокЗаказовToolStripMenuItem.Text = "Список заказов";
-            this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.списокЗаказовToolStripMenuItem_Click);
+            this.списокЗаказовToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
+            this.списокЗаказовToolStripMenuItem.Text = "Рецепты продуктов";
+            this.списокЗаказовToolStripMenuItem.Click += new System.EventHandler(this.рецептыToolStripMenuItem_Click);
             // 
             // dataGridView
             // 

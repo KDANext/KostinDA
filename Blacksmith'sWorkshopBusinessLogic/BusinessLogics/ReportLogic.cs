@@ -10,14 +10,14 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
 {
     public class ReportLogic
     {
-        private readonly IBilletLogic BilletLogic;
+        private readonly IBilletLogic billetLogic;
         private readonly IProductLogic productLogic;
         private readonly IOrderLogic orderLogic;
         public ReportLogic(IProductLogic productLogic, IBilletLogic BilletLogic,
        IOrderLogic orderLLogic)
         {
             this.productLogic = productLogic;
-            this.BilletLogic = BilletLogic;
+            this.billetLogic = BilletLogic;
             this.orderLogic = orderLLogic;
         }
         /// <summary>
@@ -26,28 +26,24 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportProductBilletViewModel> GetProductBillet()
         {
-            var Billets = BilletLogic.Read(null);
+            var billets = billetLogic.Read(null);
             var products = productLogic.Read(null);
             var list = new List<ReportProductBilletViewModel>();
-            foreach (var Billet in Billets)
+            foreach (var billet in billets)
             {
-                var record = new ReportProductBilletViewModel
-                {
-                    BilletName = Billet.BilletName,
-                    Products = new List<Tuple<string, int>>(),
-                    TotalCount = 0
-                };
                 foreach (var product in products)
                 {
-                    if (product.ProductBillets.ContainsKey(Billet.Id))
+                    if (product.ProductBillets.ContainsKey(billet.Id))
                     {
-                        record.Products.Add(new Tuple<string, int>(product.ProductName,
-                       product.ProductBillets[Billet.Id].Item2));
-                        record.TotalCount +=
-                       product.ProductBillets[Billet.Id].Item2;
+                        var record = new ReportProductBilletViewModel
+                        {
+                            ProductName = product.ProductName,
+                            BilletName = billet.BilletName,
+                            Count = product.ProductBillets[billet.Id].Item2
+                        };
+                        list.Add(record);
                     }
                 }
-                list.Add(record);
             }
             return list;
         }
@@ -82,8 +78,8 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             SaveToWord.CreateDoc(new WordInfo
             {
                 FileName = model.FileName,
-                Title = "Список компонент",
-                Billets = BilletLogic.Read(null)
+                Title = "Список изделий",
+                Products = productLogic.Read(null)
             });
         }
         /// <summary>
@@ -94,24 +90,24 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         {
             SaveToExcel.CreateDoc(new ExcelInfo
             {
+                DateFrom = model.DateFrom.Value,
+                DateTo = model.DateTo.Value,
                 FileName = model.FileName,
-                Title = "Список компонент",
-                ProductBillets = GetProductBillet()
+                Title = "Заказы",
+                Orders = GetOrders(model)
             });
         }
         /// <summary>
         /// Сохранение заказов в файл-Pdf
         /// </summary>
         /// <param name="model"></param>
-        public void SaveOrdersToPdfFile(ReportBindingModel model)
+        public void SaveProductBilletToPdfFile(ReportBindingModel model)
         {
             SaveToPdf.CreateDoc(new PdfInfo
             {
                 FileName = model.FileName,
-                Title = "Список заказов",
-                DateFrom = model.DateFrom.Value,
-                DateTo = model.DateTo.Value,
-                Orders = GetOrders(model)
+                Title = "Список нужных заготовок на продукты",
+                ProductBillets = GetProductBillet()
             });
         }
     }

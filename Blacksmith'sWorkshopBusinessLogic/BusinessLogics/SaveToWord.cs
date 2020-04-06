@@ -31,13 +31,14 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                         JustificationValues = JustificationValues.Center
                     }
                 }));
-                foreach (var Billet in info.Billets)
+                foreach (var product in info.Products)
                 {
                     docBody.AppendChild(CreateParagraph(new WordParagraph
                     {
-                        Texts = new List<string> { Billet.BilletName },
+                        Texts = new List<string> { product.ProductName, "--" + product.Price.ToString() },
                         TextProperties = new WordParagraphProperties
                         {
+                            Bold = true,
                             Size = "24",
                             JustificationValues = JustificationValues.Both
                         }
@@ -82,7 +83,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                         Val =
                    paragraph.TextProperties.Size
                     });
-                    if (paragraph.TextProperties.Bold)
+                    if (!run.StartsWith("--") && paragraph.TextProperties.Bold)
                     {
                         properties.AppendChild(new Bold());
                     }
@@ -99,7 +100,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             }
             return null;
         }
-
         /// <summary>
         /// Задание форматирования для абзаца
         /// </summary>
