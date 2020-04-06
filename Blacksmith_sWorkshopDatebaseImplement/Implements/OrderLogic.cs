@@ -33,6 +33,7 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
                     context.Orders.Add(element);
                 }
                 element.ProductId = model.ProductId == 0 ? element.ProductId : model.ProductId;
+                element.ClientId = model.ClientId == 0 ? element.ProductId : model.ProductId;
                 element.Count = model.Count;
                 element.Sum = model.Sum;
                 element.Status = model.Status;
@@ -71,7 +72,9 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
             {
                 Id = rec.Id,
                 ProductId = rec.ProductId,
+                ClientId = rec.ClientId,
                 ProductName = rec.Product.ProductName,
+                ClientFIO = rec.Client.ClientFIO,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,

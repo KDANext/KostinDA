@@ -7,7 +7,7 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
 {
     public class Client
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         [Required]
         public string ClientFIO { get; set; }
         [Required]

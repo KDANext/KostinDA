@@ -84,8 +84,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         {
             Client.ClientFIO = model.ClientFIO;
             Client.Login = model.Login;
-            Client.Password = model.Password;
-            
+            Client.Password = model.Password;    
             return Client;
         }
         private ClientViewModel CreateViewModel(Client Client)

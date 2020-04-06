@@ -51,7 +51,7 @@ namespace Blacksmith_sWorkshopFileImplement
             return list;
         }
 
-        private void SaveClient()
+        private void SaveClients()
         {
             if (Clients != null)
             {
@@ -117,6 +117,7 @@ namespace Blacksmith_sWorkshopFileImplement
                     {
                         Id = Convert.ToInt32(elem.Attribute("Id").Value),
                         ProductId = Convert.ToInt32(elem.Element("ProductId").Value),
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
                         Count = Convert.ToInt32(elem.Element("Count").Value),
                         Sum = Convert.ToDecimal(elem.Element("Sum").Value),
                         Status = (OrderStatus)Enum.Parse(typeof(OrderStatus),
@@ -195,6 +196,7 @@ namespace Blacksmith_sWorkshopFileImplement
                     xElement.Add(new XElement("Order",
                     new XAttribute("Id", order.Id),
                     new XElement("ProductId", order.ProductId),
+                    new XElement("ClientId", order.ClientId),
                     new XElement("Count", order.Count),
                     new XElement("Sum", order.Sum),
                     new XElement("Status", order.Status),
