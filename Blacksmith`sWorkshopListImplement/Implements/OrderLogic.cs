@@ -71,7 +71,12 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                         result.Add(CreateViewModel(order));
                         break;
                     }
+                    else if (order.ClientId == model.ClientId)
+                    {
+                        result.Add(CreateViewModel(order));
+                    }
                     continue;
+
                 }
                 result.Add(CreateViewModel(order));
             }

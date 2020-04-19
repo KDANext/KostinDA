@@ -63,11 +63,13 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Implements
             using (var context = new BlacksmithsWorkshopDatebase())
             {
                 return context.Clients
-                .Where(rec => model == null || rec.Id == model.Id)
+                .Where(rec => model == null || rec.Id == model.Id || (rec.Login == model.Login && rec.Password == model.Password))
                 .Select(rec => new ClientViewModel
                 {
                     Id = rec.Id,
-                    ClientFIO = rec.ClientFIO
+                    ClientFIO = rec.ClientFIO,
+                    Password = rec.Password,
+                    Login = rec.Login
                 })
                 .ToList();
             }

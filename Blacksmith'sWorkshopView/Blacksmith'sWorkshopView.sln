@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopListImp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith`sWorkshopFileImplement", "..\Blacksmith`sWorkshopFileImplement\Blacksmith`sWorkshopFileImplement.csproj", "{B1840A76-E317-4D72-9D00-1D1194BD096D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith_sWorkshopDatebaseImplement", "..\Blacksmith_sWorkshopDatebaseImplement\Blacksmith_sWorkshopDatebaseImplement.csproj", "{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blacksmith_sWorkshopDatebaseImplement", "..\Blacksmith_sWorkshopDatebaseImplement\Blacksmith_sWorkshopDatebaseImplement.csproj", "{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith_sWorkshopRestApi", "..\Blacksmith_sWorkshopRestApi\Blacksmith_sWorkshopRestApi.csproj", "{C9F1E8CE-1DC4-4581-BA9D-E90091F9124A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blacksmith_sWorkshopClientView", "..\Blacksmith_sWorkshopClientView\Blacksmith_sWorkshopClientView.csproj", "{5BF8B366-BC80-4A11-8BE0-B2FC3443F047}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C38A4E8-5C84-4258-A48E-1A7DFC42B23D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9F1E8CE-1DC4-4581-BA9D-E90091F9124A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9F1E8CE-1DC4-4581-BA9D-E90091F9124A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9F1E8CE-1DC4-4581-BA9D-E90091F9124A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9F1E8CE-1DC4-4581-BA9D-E90091F9124A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BF8B366-BC80-4A11-8BE0-B2FC3443F047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BF8B366-BC80-4A11-8BE0-B2FC3443F047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BF8B366-BC80-4A11-8BE0-B2FC3443F047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BF8B366-BC80-4A11-8BE0-B2FC3443F047}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

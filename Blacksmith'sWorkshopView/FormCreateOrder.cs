@@ -15,26 +15,35 @@ namespace Blacksmith_sWorkshopView
         public new IUnityContainer Container { get; set; }
 
         private readonly IProductLogic logicP;
-
+        private readonly IClientLogic logicC;
         private readonly MainLogic logicM;
 
-        public FormCreateOrder(IProductLogic logicP, MainLogic logicM)
+        public FormCreateOrder(IProductLogic logicP, MainLogic logicM, IClientLogic logicC)
         {
             InitializeComponent();
             this.logicP = logicP;
             this.logicM = logicM;
+            this.logicC = logicC;
         }
 
         private void FormCreateOrder_Load(object sender, EventArgs e)
         {
             try
             {
-                List<ProductViewModel> list = logicP.Read(null);
-                if (list != null)
+                List<ProductViewModel> listP = logicP.Read(null);
+                if (listP != null)
                 {
                     comboBoxProduct.DisplayMember = "ProductName";
                     comboBoxProduct.ValueMember = "Id";
-                    comboBoxProduct.DataSource = list;
+                    comboBoxProduct.DataSource = listP;
+                    comboBoxProduct.SelectedItem = null;
+                }
+                List<ClientViewModel> listC = logicC.Read(null);
+                if (listC != null)
+                {
+                    comboBoxProduct.DisplayMember = "ClientFIO";
+                    comboBoxProduct.ValueMember = "Id";
+                    comboBoxProduct.DataSource = listC;
                     comboBoxProduct.SelectedItem = null;
                 }
             }
@@ -88,13 +97,19 @@ namespace Blacksmith_sWorkshopView
                 MessageBox.Show("Выберите изделие", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            if (comboBoxClient.SelectedValue == null)
+            {
+                MessageBox.Show("Выберите клиента", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             try
             {
                 logicM.CreateOrder(new CreateOrderBindingModel
                 {
                     ProductId = Convert.ToInt32(comboBoxProduct.SelectedValue),
                     Count = Convert.ToInt32(textBoxCount.Text),
-                    Sum = Convert.ToDecimal(textBoxSum.Text)
+                    Sum = Convert.ToDecimal(textBoxSum.Text),
+                    ClientId = Convert.ToInt32(comboBoxClient.SelectedValue)
                 });
                 MessageBox.Show("Сохранение прошло успешно", "Сообщение",
                MessageBoxButtons.OK, MessageBoxIcon.Information);

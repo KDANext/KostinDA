@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace BlacksmithsWorkshopDatebaseImplement.Implements
+namespace Blacksmith_sWorkshopDatebaseImplement.Implements
 {
     public class BilletLogic : IBilletLogic
     {
