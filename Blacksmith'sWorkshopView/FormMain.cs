@@ -37,6 +37,7 @@ namespace Blacksmith_sWorkshopView
                     dataGridView.DataSource = list;
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
+                    dataGridView.Columns[2].Visible = false;
                     dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
@@ -156,6 +157,12 @@ namespace Blacksmith_sWorkshopView
         private void рецептыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportProductBillets>(); 
+            form.ShowDialog();
+        }
+
+        private void клиентыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormClients>();
             form.ShowDialog();
         }
     }

@@ -41,10 +41,10 @@ namespace Blacksmith_sWorkshopView
                 List<ClientViewModel> listC = logicC.Read(null);
                 if (listC != null)
                 {
-                    comboBoxProduct.DisplayMember = "ClientFIO";
-                    comboBoxProduct.ValueMember = "Id";
-                    comboBoxProduct.DataSource = listC;
-                    comboBoxProduct.SelectedItem = null;
+                    comboBoxClient.DisplayMember = "ClientFIO";
+                    comboBoxClient.ValueMember = "Id";
+                    comboBoxClient.DataSource = listC;
+                    comboBoxClient.SelectedItem = null;
                 }
             }
             catch (Exception ex)

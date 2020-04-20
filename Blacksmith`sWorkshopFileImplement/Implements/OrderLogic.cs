@@ -71,6 +71,7 @@ namespace Blacksmith_sWorkshopFileImplement
                     rec => model == null
                     || (rec.Id == model.Id && model.Id.HasValue)
                     || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
+                    || (rec.ClientId == model.ClientId)
                 )
             .Select(rec => new OrderViewModel
             {

@@ -1,4 +1,5 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,15 +21,13 @@ namespace Blacksmith_sWorkshopClientView
         {
             try
             {
-                var dataSourse = APIClient.GetRequest<List<OrderBindingModel>>($"api/main/getorders?clientId={Program.Client.Id}");
-                if (dataSourse == null) throw new Exception("Что то пошло не так");
+                var dataSourse = APIClient.GetRequest<List<OrderViewModel>>($"api/main/getorders?clientId={Program.Client.Id}");
                 dataGridView.DataSource = dataSourse;   
                 dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[1].Visible = false;
                 dataGridView.Columns[2].Visible = false;
                 dataGridView.Columns[3].Visible = false;
-                dataGridView.Columns[4].AutoSizeMode =
-               DataGridViewAutoSizeColumnMode.Fill;
+                dataGridView.Columns[4].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception ex)
             {
