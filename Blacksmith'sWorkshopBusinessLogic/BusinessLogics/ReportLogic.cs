@@ -26,25 +26,20 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         /// <returns></returns>
         public List<ReportProductBilletViewModel> GetProductBillet()
         {
-            var billets = billetLogic.Read(null);
             var products = productLogic.Read(null);
             var list = new List<ReportProductBilletViewModel>();
-            foreach (var billet in billets)
-            {
                 foreach (var product in products)
                 {
-                    if (product.ProductBillets.ContainsKey(billet.Id))
+                    foreach (var billet in product.ProductBillets)
                     {
-                        var record = new ReportProductBilletViewModel
+                        list.Add(new ReportProductBilletViewModel
                         {
                             ProductName = product.ProductName,
-                            BilletName = billet.BilletName,
-                            Count = product.ProductBillets[billet.Id].Item2
-                        };
-                        list.Add(record);
+                            BilletName = billet.Value.Item1,
+                            Count = billet.Value.Item2
+                        }) ;
                     }
                 }
-            }
             return list;
         }
         /// <summary>
