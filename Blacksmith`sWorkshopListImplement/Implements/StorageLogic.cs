@@ -192,5 +192,10 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                     Billet.Count += model.BilletCount;
             }
         }
+
+        public void RemoveBillet(int ProductId, int ProductCount)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
