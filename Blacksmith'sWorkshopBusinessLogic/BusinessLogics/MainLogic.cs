@@ -2,15 +2,20 @@
 using Blacksmith_sWorkshopBusinessLogic.Enums;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
+using System.Collections.Generic;
 
 namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
 {
     public class MainLogic
     {
         private readonly IOrderLogic orderLogic;
-        public MainLogic(IOrderLogic orderLogic)
+        private readonly IStorageLogic storageLogic;
+        private readonly IProductLogic productLogic;
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, IProductLogic productLogic)
         {
             this.orderLogic = orderLogic;
+            this.storageLogic = storageLogic;
+            this.productLogic = productLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -25,28 +30,31 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (CheckingStoragedBillet(order.ProductId, order.Count))
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    ProductId = order.ProductId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
+                storageLogic.RemoveBillet(order.ProductId, order.Count);
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
-            {
-                Id = order.Id,
-                ProductId = order.ProductId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
+            else
+                throw new Exception("Не хватает заготовок на складах!");
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
@@ -93,6 +101,35 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 DateImplement = order.DateImplement,
                 Status = OrderStatus.Оплачен
             });
+        }
+
+        private bool CheckingStoragedBillet(int ProductId, int ProductCount)
+        {
+            var storages = storageLogic.Read(null);
+            var ProductBillet = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0].ProductBillets;
+            var BilletStorages = new Dictionary<int, int>(); // Ключ,Количество
+            foreach (var storage in storages)
+            {
+                foreach (var sm in storage.StoragedBillets)
+                {
+                    if (BilletStorages.ContainsKey(sm.Key))
+                        BilletStorages[sm.Key] += sm.Value.Item2;
+                    else
+                        BilletStorages.Add(sm.Key, sm.Value.Item2);
+                }
+            }
+
+            foreach (var dm in ProductBillet)
+            {
+                if (!BilletStorages.ContainsKey(dm.Key) || BilletStorages[dm.Key] < dm.Value.Item2 * ProductCount)
+                    return false;
+            }
+            return true;
+        }
+
+        public void AddBillets(StorageAddBilletBindingModel model)
+        {
+            storageLogic.AddBilletToStorage(model);
         }
     }
 }
