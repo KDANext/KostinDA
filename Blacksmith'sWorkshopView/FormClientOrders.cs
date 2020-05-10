@@ -27,39 +27,30 @@ namespace BlacksmithsWorkshopView
                 MessageBox.Show("Дата начала должна быть меньше даты окончания", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
             try
             {
-                var dict = logic.GetOrders(new ReportBindingModel { DateFrom = dateTimePickerFrom.Value.Date, DateTo = dateTimePickerTo.Value.Date });
-                List<DateTime> dates = new List<DateTime>();
-                foreach (var order in dict)
+                var orders = logic.GetOrders(new ReportBindingModel
                 {
-                    if (!dates.Contains(order.DateCreate.Date))
-                    {
-                        dates.Add(order.DateCreate.Date);
-                    }
-                }
-
-                if (dict != null)
+                    DateFrom = dateTimePickerFrom.Value,
+                    DateTo = dateTimePickerTo.Value
+                });
+                if (orders != null)
                 {
                     dataGridView.Rows.Clear();
-                    foreach (var date in dates)
+                    foreach (var group in orders)
                     {
-                        decimal GenSum = 0;
-                        dataGridView.Rows.Add(new object[] { date.Date.ToShortDateString() });
-
-                        foreach (var order in dict.Where(rec => rec.DateCreate.Date == date.Date))
+                        dataGridView.Rows.Add(new object[] { group.Key.ToString(), "", "", "", "" });
+                        foreach (var order in group)
                         {
-                            dataGridView.Rows.Add(new object[] { "", order.ProductName, order.Sum });
-                            GenSum += order.Sum;
+                            dataGridView.Rows.Add(new object[] { "", order.ProductName, order.Count, order.Sum, order.Status });
                         }
-                        dataGridView.Rows.Add(new object[] { "За этот день всего:", "", GenSum });
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
             }
         }
         private void ButtonSaveToExel_Click(object sender, EventArgs e)
