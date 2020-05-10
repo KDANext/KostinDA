@@ -47,7 +47,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public List<ReportOrdersViewModel> GetOrders(ReportBindingModel model)
+        public IEnumerable<IGrouping<DateTime, ReportOrdersViewModel>> GetOrders(ReportBindingModel model)
         {
             return orderLogic.Read(new OrderBindingModel
             {
@@ -62,7 +62,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 Sum = x.Sum,
                 Status = x.Status
             })
-           .ToList();
+           .GroupBy(x => x.DateCreate.Date);
         }
         /// <summary>
         /// Сохранение компонент в файл-Word
