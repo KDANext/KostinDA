@@ -14,4 +14,13 @@
     <ProjectReference Include="..\Blacksmith'sWorkshopBusinessLogic\Blacksmith'sWorkshopBusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="FormMails.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FormMails.Designer.cs">
+      <DependentUpon>FormMails.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
