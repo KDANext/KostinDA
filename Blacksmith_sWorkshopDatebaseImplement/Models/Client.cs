@@ -10,11 +10,13 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
         public int Id { get; set; }
         [Required]
         public string ClientFIO { get; set; }
-        [Required]
         public string Email { get; set; }
+        [Required]
         public string Login { get; set; }
         [Required]
         public string Password { get; set; }
         public virtual List<Order> Orders { get; set; }
+        public virtual List<MessageInfo> MessageInfos { get; set; }
+
     }
 }

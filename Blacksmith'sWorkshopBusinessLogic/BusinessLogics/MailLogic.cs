@@ -46,13 +46,14 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 {
                     try
                     {
-                        objMailMessage.From = new MailAddress(mailLogin); objMailMessage.To.Add(new MailAddress(info.MailAddress)); 
+                        objMailMessage.From = new MailAddress(mailLogin); 
+                        objMailMessage.To.Add(new MailAddress(info.MailAddress)); 
                         objMailMessage.Subject = info.Subject;
                         objMailMessage.Body = info.Text;
                         objMailMessage.SubjectEncoding = Encoding.UTF8;
                         objMailMessage.BodyEncoding = Encoding.UTF8;
-
-                        objSmtpClient.UseDefaultCredentials = false; objSmtpClient.EnableSsl = true;
+                        objSmtpClient.UseDefaultCredentials = false; 
+                        objSmtpClient.EnableSsl = true;
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network; 
                         objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
 

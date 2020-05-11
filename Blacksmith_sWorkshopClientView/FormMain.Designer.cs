@@ -33,6 +33,8 @@
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.RefreshOrderListToolStripMenuItem = new
            System.Windows.Forms.ToolStripMenuItem();
+            this.ViewMailsListToolStripMenuItem = new
+           System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
@@ -42,7 +44,9 @@
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
              this.UpdateDataToolStripMenuItem,
              this.CreateOrderToolStripMenuItem,
-             this.RefreshOrderListToolStripMenuItem});
+             this.RefreshOrderListToolStripMenuItem,
+             this.ViewMailsListToolStripMenuItem
+            });
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
             this.menuStrip.Size = new System.Drawing.Size(621, 24);
@@ -67,13 +71,21 @@
             //
             // RefreshOrderListToolStripMenuItem
             //
-            this.RefreshOrderListToolStripMenuItem.Name =
-           "RefreshOrderListToolStripMenuItem";
+            this.RefreshOrderListToolStripMenuItem.Name = "RefreshOrderListToolStripMenuItem";
             this.RefreshOrderListToolStripMenuItem.Size = new System.Drawing.Size(159,
            20);
             this.RefreshOrderListToolStripMenuItem.Text = "Обновить список заказов";
             this.RefreshOrderListToolStripMenuItem.Click += new
            System.EventHandler(this.RefreshOrderListToolStripMenuItem_Click);
+            //
+            // ViewMailsListToolStripMenuItem
+            //
+            this.ViewMailsListToolStripMenuItem.Name = "ViewMailsListToolStripMenuItem";
+            this.ViewMailsListToolStripMenuItem.Size = new System.Drawing.Size(80,
+           20);
+            this.ViewMailsListToolStripMenuItem.Text = "Почта";
+            this.ViewMailsListToolStripMenuItem.Click += new
+           System.EventHandler(this.ViewMailsToolStripMenuItem_Click);
             //
             // dataGridView
             //
@@ -109,6 +121,7 @@
         private System.Windows.Forms.ToolStripMenuItem UpdateDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CreateOrderToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem RefreshOrderListToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ViewMailsListToolStripMenuItem;
         private System.Windows.Forms.DataGridView dataGridView;
     }
 }

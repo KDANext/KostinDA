@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace BlacksmithsWorkshopView
+namespace Blacksmith_sWorkshopClientView
 {
     public partial class FormMails : Form
     {
@@ -23,7 +23,7 @@ namespace BlacksmithsWorkshopView
         {
             try
             {
-                var dataSourse = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/main/getmessages?clientId={Program.Client.Id}");
+                List<MessageInfoViewModel> dataSourse = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientId={Program.Client.Id}");
                 dataGridView.DataSource = dataSourse;
                 dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }

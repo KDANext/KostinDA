@@ -69,7 +69,8 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Implements
                     Id = rec.Id,
                     ClientFIO = rec.ClientFIO,
                     Password = rec.Password,
-                    Login = rec.Login
+                    Login = rec.Login,
+                    Email = rec.Email
                 })
                 .ToList();
             }

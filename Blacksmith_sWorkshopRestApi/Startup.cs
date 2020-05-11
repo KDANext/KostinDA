@@ -23,6 +23,7 @@ namespace Blacksmith_sWorkshopRestApi
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IProductLogic, ProductLogic>();
             services.AddTransient<MainLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddControllers().AddNewtonsoftJson();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

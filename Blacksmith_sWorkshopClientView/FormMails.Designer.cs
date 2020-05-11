@@ -1,4 +1,4 @@
-﻿namespace BlacksmithsWorkshopView
+﻿namespace Blacksmith_sWorkshopClientView
 {
     partial class FormMails
     {
