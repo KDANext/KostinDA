@@ -4,14 +4,16 @@ using Blacksmith_sWorkshopDatebaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlacksmithsWorkshopDatebaseImplement.Migrations
 {
     [DbContext(typeof(BlacksmithsWorkshopDatebase))]
-    partial class BlacksmithsWorkshopDatebaseModelSnapshot : ModelSnapshot
+    [Migration("20200420101904_implementersMigrationLab6")]
+    partial class implementersMigrationLab6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

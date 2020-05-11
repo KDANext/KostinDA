@@ -16,11 +16,13 @@ namespace Blacksmith_sWorkshopFileImplement
         private readonly string ProductFileName = "Product.xml";
         private readonly string ProductBilletFileName = "ProductBillet.xml";
         private readonly string ClientFileName = "Client.xml";
+        private readonly string ImplementerFileName = "Implementer.xml";
         public List<Billet> Billets { get; set; }
         public List<Order> Orders { get; set; }
         public List<Product> Products { get; set; }
         public List<ProductBillet> ProductBillets { get; set; }
         public List<Client> Clients { get; set; }
+        public List<Implementer> Implementers { get; set; }
         private FileDataListSingleton()
         {
             Billets = LoadBillets();
@@ -28,6 +30,28 @@ namespace Blacksmith_sWorkshopFileImplement
             Products = LoadProducts();
             ProductBillets = LoadProductBillets();
             Clients = LoadClients();
+            Implementers = LoadImplementers();
+        }
+
+        private List<Implementer> LoadImplementers()
+        {
+            var list = new List<Implementer>();
+            if (File.Exists(ImplementerFileName))
+            {
+                XDocument xDocument = XDocument.Load(ImplementerFileName);
+                var xElements = xDocument.Root.Elements("Implementer").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new Implementer
+                    {
+                        Id = Convert.ToInt32(elem.Attribute("Id").Value),
+                        ImplementerFIO = elem.Element("ImplementerFIO").Value,
+                        PauseTime = Convert.ToInt32(elem.Element("PauseTime").Value),
+                        WorkingTime = Convert.ToInt32(elem.Element("WorkingTime").Value),
+                    });
+                }
+            }
+            return list;
         }
 
         private List<Client> LoadClients()
@@ -84,8 +108,32 @@ namespace Blacksmith_sWorkshopFileImplement
             SaveOrders();
             SaveProducts();
             SaveProductBillets();
-            LoadClients();
+            SaveClients();
+            SaveImplementers();
         }
+
+        private void SaveImplementers()
+        {
+            if (Implementers != null)
+            {
+                var xElement = new XElement("Implementers");
+
+                foreach (var implementer in Implementers)
+                {
+                    xElement.Add(
+                        new XElement("Implementer",
+                        new XAttribute("Id", implementer.Id),
+                        new XElement("ImplementerFIO", implementer.ImplementerFIO),
+                        new XElement("PauseTime", implementer.PauseTime),
+                        new XElement("WorkingTime", implementer.WorkingTime)
+                        ));
+                }
+
+                XDocument xDocument = new XDocument(xElement);
+                xDocument.Save(ImplementerFileName);
+            }
+        }
+
         private List<Billet> LoadBillets()
         {
             var list = new List<Billet>();

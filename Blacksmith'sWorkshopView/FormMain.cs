@@ -15,12 +15,14 @@ namespace Blacksmith_sWorkshopView
         private readonly MainLogic logic;
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic report;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report)
+        private readonly WorkModeling workModeling;
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report, WorkModeling workModeling)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
             this.report = report;
+            this.workModeling = workModeling; 
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -38,6 +40,8 @@ namespace Blacksmith_sWorkshopView
                     dataGridView.Columns[0].Visible = false;
                     dataGridView.Columns[1].Visible = false;
                     dataGridView.Columns[2].Visible = false;
+                    
+                    dataGridView.Columns[3].Visible = false;
                     dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
                 }
             }
@@ -164,6 +168,18 @@ namespace Blacksmith_sWorkshopView
         {
             var form = Container.Resolve<FormClients>();
             form.ShowDialog();
+        }
+
+        private void исполнителиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormImplementers>();
+            form.ShowDialog();
+        }
+
+        private void запускРаботToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            workModeling.DoWork();
+            LoadData();
         }
     }
 }

@@ -19,12 +19,15 @@ namespace Blacksmith_sWorkshopListImplement
 
         public List<Client> Clients { get; set; }
 
+        public List<Implementer> Implementers { get; set; }
+
         private DataListSingleton() {
             Billets = new List<Billet>();
             Orders = new List<Order>();
             Products = new List<Product>();
             ProductBillets = new List<ProductBillet>();
             Clients = new List<Client>();
+            Implementers = new List<Implementer>();
         }
 
         public static DataListSingleton GetInstance()
