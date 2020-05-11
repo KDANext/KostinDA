@@ -129,7 +129,7 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                         .IsRequired();
 
                     b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Product", "Product")
-                        .WithMany("ForgeProductBillets")
+                        .WithMany("ProductBillets")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
