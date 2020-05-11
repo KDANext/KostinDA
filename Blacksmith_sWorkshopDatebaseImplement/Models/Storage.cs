@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Blacksmith_sWorkshopListImplement.Models
+namespace Blacksmith_sWorkshopDatebaseImplement.Models
 {
     public class Storage
     {

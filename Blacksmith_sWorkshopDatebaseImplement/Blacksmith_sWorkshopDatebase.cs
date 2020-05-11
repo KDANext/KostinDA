@@ -17,5 +17,7 @@ namespace Blacksmith_sWorkshopDatebaseImplement
         public virtual DbSet<Product> Products { set; get; }
         public virtual DbSet<ProductBillet> ProductBillets { set; get; }
         public virtual DbSet<Order> Orders { set; get; }
+        public virtual DbSet<Storage> Storages { set; get; }
+        public virtual DbSet<StorageBillet> StorageBillets { set; get; }
     }
 }

@@ -1,132 +1,166 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
+using Blacksmith_sWorkshopBusinessLogic.ViewModels;
+using Blacksmith_sWorkshopDatebaseImplement;
+using Blacksmith_sWorkshopDatebaseImplement.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
-namespace Blacksmith_sWorkshopDatebaseImplement.Implements
+namespace BlacksmithsWorkshopDatebaseImplement.Implements
 {
     public class StorageLogic : IStorageLogic
     {
         public void CreateOrUpdate(StorageBindingModel model)
         {
-            using (var context = new BlacksmithsWorkshopDatebase()) {
-                Storage element = source.Storages.FirstOrDefault(q => q.StorageName == model.StorageName && q.Id != model.Id);
+            using (var context = new BlacksmithsWorkshopDatebase())
+            {
+                Storage element = context.Storages.FirstOrDefault(rec => rec.StorageName == model.StorageName && rec.Id != model.Id);
                 if (element != null)
-                    throw new Exception("Уже есть компонент с таким названием");
+                {
+                    throw new Exception("Уже есть изделие с таким названием");
+                }
                 if (model.Id.HasValue)
                 {
-                    element = source.Storages.FirstOrDefault(q => q.Id == model.Id);
+                    element = context.Storages.FirstOrDefault(rec => rec.Id == model.Id);
                     if (element == null)
                     {
                         throw new Exception("Элемент не найден");
                     }
-                    var storageBillets = source.StorageBillets.Where(q => q.StorageId == element.Id).ToList();
-                    //обновление материалов, связанных с текущим хранилищем
-                    for (int i = 0; i < storageBillets.Count; i++)
-                    {
-                        if (model.StoragedBillets.ContainsKey(storageBillets[i].BilletId))
-                            storageBillets[i].Count = model.StoragedBillets[storageBillets[i].BilletId].Item2;
-                        else
-                            storageBillets.RemoveAt(i);
-                    }
-                    //добавление новых материалов
-                    var keysBillets = model.StoragedBillets.Keys;
-                    int maxId = source.StorageBillets.Count > 0 ? source.StorageBillets.Count : 0;
-                    foreach (var k in keysBillets)
-                    {
-                        if (!source.StorageBillets.Where(q => q.StorageId == element.Id).Select(q => q.BilletId).Contains(k))
-                            source.StorageBillets.Add(new StorageBillet()
-                            {
-                                Id = ++maxId,
-                                BilletId = k,
-                                StorageId = element.Id,
-                                Count = model.StoragedBillets[k].Item2
-                            });
-                    }
                 }
                 else
                 {
-                    int maxId = source.Storages.Count > 0 ? source.Storages.Max(q => q.Id) : 0;
-                    element = new Storage { Id = maxId + 1 };
-                    source.Storages.Add(element);
+                    element = new Storage();
+                    context.Storages.Add(element);
                 }
                 element.StorageName = model.StorageName;
+                context.SaveChanges();
             }
         }
 
         public void Delete(StorageBindingModel model)
         {
-            Storage storage = source.Storages.FirstOrDefault(q => q.Id == model.Id);
-            if (storage != null)
-                source.Storages.Remove(storage);
-            else
-                throw new Exception("Склад ненайден");
+            using (var context = new BlacksmithsWorkshopDatebase())
+            {
+                context.StorageBillets.RemoveRange(context.StorageBillets.Where(rec => rec.StorageId == model.Id));
+                Storage element = context.Storages.FirstOrDefault(rec => rec.Id == model.Id);
+                if (element != null)
+                {
+                    context.Storages.Remove(element);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    throw new Exception("Элемент не найден");
+                }
+            }
         }
 
         public List<StorageViewModel> Read(StorageBindingModel model)
         {
-            return source.Storages
-            .Where(q => model == null || q.Id == model.Id)
-            .Select(q => new StorageViewModel
+            using (var context = new BlacksmithsWorkshopDatebase())
             {
-                Id = q.Id,
-                StorageName = q.StorageName,
-                StoragedBillets = source.StorageBillets
-                    .Where(w => w.StorageId == q.Id)
-                    .Select(w => (source.Billets.FirstOrDefault(e => e.Id == w.BilletId).BilletName, w.Count))
-                    .ToDictionary(r => source.Billets.FirstOrDefault(e => e.BilletName == r.BilletName).Id)
-            })
-            .ToList();
+                return context.Storages.Where(rec => model == null || rec.Id == model.Id)
+                .ToList()
+                .Select(rec => new StorageViewModel
+                {
+                    Id = rec.Id,
+                    StorageName = rec.StorageName,
+                    StoragedBillets = context.StorageBillets.Include(x => x.Billet)
+                                                           .Where(x => x.StorageId == rec.Id)
+                                                           .ToDictionary(x => x.BilletId,  x => (x.Billet.BilletName, x.Count))
+                }).ToList();
+            }
+        }
+
+        public bool Removebillets(OrderViewModel order)
+        {
+            using (var context = new BlacksmithsWorkshopDatebase())
+            {
+                using (var transaction = context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var dressbillets = context.ProductBillets.Where(dm => dm.ProductId == order.ProductId).ToList();
+                        var storagebillets = context.StorageBillets.ToList();
+                        foreach (var billet in dressbillets)
+                        {
+                            var billetCount = billet.Count * order.Count;
+                            foreach (var sm in storagebillets)
+                            {
+                                if (sm.BilletId == billet.BilletId && sm.Count >= billetCount)
+                                {
+                                    sm.Count -= billetCount;
+                                    billetCount = 0;
+                                    context.SaveChanges();
+                                    break;
+                                }
+                                else if (sm.BilletId == billet.BilletId && sm.Count < billetCount)
+                                {
+                                    billetCount -= sm.Count;
+                                    sm.Count = 0;
+                                    context.SaveChanges();
+                                }
+                            }
+                            if (billetCount > 0)
+                                throw new Exception("Не хватает материалов на складах!");
+                        }
+                        transaction.Commit();           
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
 
         public void AddBilletToStorage(StorageAddBilletBindingModel model)
         {
-            if (source.StorageBillets.Count == 0)
+            using (var context = new BlacksmithsWorkshopDatebase())
             {
-                source.StorageBillets.Add(new StorageBillet()
-                {
-                    Id = 1,
-                    BilletId = model.BilletId,
-                    StorageId = model.StorageId,
-                    Count = model.BilletCount
-                });
-            }
-            else
-            {
-                var Billet = source.StorageBillets.FirstOrDefault(q => q.StorageId == model.StorageId && q.BilletId == model.BilletId);
-                if (Billet == null)
-                {
-                    source.StorageBillets.Add(new StorageBillet()
+                var storageBillet = context.StorageBillets
+                    .FirstOrDefault(sm => sm.BilletId == model.BilletId && sm.StorageId == model.StorageId);
+                if (storageBillet != null)
+                    storageBillet.Count += model.BilletCount;
+                else
+                    context.StorageBillets.Add(new StorageBillet()
                     {
-                        Id = source.StorageBillets.Max(q => q.Id) + 1,
                         BilletId = model.BilletId,
                         StorageId = model.StorageId,
                         Count = model.BilletCount
                     });
-                }
-                else
-                    Billet.Count += model.BilletCount;
+                context.SaveChanges();
             }
         }
 
-        public void RemoveBillet(int ProductId, int countProduct)
+        public void RemoveBillet(int ProductId, int ProductCount)
         {
-            var ProductBillets = source.ProductBillets.Where(q => q.ProductId == ProductId);
-            foreach (var q in ProductBillets)
+            using (var context = new BlacksmithsWorkshopDatebase())
             {
-                int BilletCount = q.Count * countProduct;
-                foreach (var w in source.StorageBillets)
+                using (var transaction = context.Database.BeginTransaction())
                 {
-                    if (w.BilletId == q.BilletId && w.Count >= BilletCount)
+                    var ProductBillets = context.ProductBillets.Where(q => q.ProductId == ProductId);
+                    foreach (var q in ProductBillets)
                     {
-                        w.Count -= BilletCount;
-                        break;
-                    }
-                    else if (w.BilletId == q.BilletId && w.Count < BilletCount)
-                    {
-                        BilletCount -= w.Count;
-                        w.Count = 0;
+                        int BilletCount = q.Count * ProductCount;
+                        foreach (var w in context.StorageBillets)
+                        {
+                            if (w.BilletId == q.BilletId && w.Count >= BilletCount)
+                            {
+                                w.Count -= BilletCount;
+                                break;
+                            }
+                            else if (w.BilletId == q.BilletId && w.Count < BilletCount)
+                            {
+                                BilletCount -= w.Count;
+                                w.Count = 0;
+                            }
+                        }
                     }
                 }
             }
