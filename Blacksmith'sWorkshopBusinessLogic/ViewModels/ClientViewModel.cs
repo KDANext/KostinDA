@@ -15,6 +15,9 @@ namespace Blacksmith_sWorkshopBusinessLogic.ViewModels
         [DisplayName("Клиент")]
         public string ClientFIO { get; set; }
         [DataMember]
+        [DisplayName("Почта")]
+        public string Email { get; set; }
+        [DataMember]
         public string Login { get; set; }
         [DataMember]
         public string Password { get; set; }
