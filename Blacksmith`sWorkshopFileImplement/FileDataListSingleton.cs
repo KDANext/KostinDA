@@ -46,6 +46,8 @@ namespace Blacksmith_sWorkshopFileImplement
             SaveOrders();
             SaveProducts();
             SaveProductBillets();
+            SaveStorages();
+            SaveStorageBillets();
         }
         private List<Billet> LoadBillets()
         {
