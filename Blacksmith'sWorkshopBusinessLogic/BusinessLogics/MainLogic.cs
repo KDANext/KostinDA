@@ -102,7 +102,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Оплачен
             });
         }
-
+      
         private bool CheckingStoragedBillet(int ProductId, int ProductCount)
         {
             var storages = storageLogic.Read(null);
@@ -126,7 +126,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             }
             return true;
         }
-
+      
         public void AddBillets(StorageAddBilletBindingModel model)
         {
             storageLogic.AddBilletToStorage(model);

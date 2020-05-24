@@ -44,11 +44,14 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                CreateModel(storage, tempStorage);
+                storage.StorageName = tempStorage.StorageName;
             }
             else
             {
-                source.Storages.Add(CreateModel(storage, tempStorage));
+                source.Storages.Add(new Storage
+                {
+                    StorageName = storage.StorageName
+                });
             }
         }
 
@@ -91,49 +94,6 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             }
             return result;
         }
-
-        private Storage CreateModel(StorageBindingModel model, Storage storage)
-        {
-            storage.StorageName = model.StorageName;
-            //обновляем существуюущие компоненты и ищем максимальный идентификатор
-            int maxSMId = 0;
-            for (int i = 0; i < source.StorageBillets.Count; ++i)
-            {
-                if (source.StorageBillets[i].Id > maxSMId)
-                {
-                    maxSMId = source.StorageBillets[i].Id;
-                }
-                if (source.StorageBillets[i].StorageId == storage.Id)
-                {
-                    // если в модели пришла запись компонента с таким id
-                    if (model.StoragedBillets.ContainsKey(source.StorageBillets[i].BilletId))
-                    {
-                        // обновляем количество
-                        source.StorageBillets[i].Count = model.StoragedBillets[source.StorageBillets[i].BilletId].Item2;
-                        // из модели убираем эту запись, чтобы остались только не
-                        //просмотренные
-                        model.StoragedBillets.Remove(source.StorageBillets[i].BilletId);
-                    }
-                    else
-                    {
-                        source.StorageBillets.RemoveAt(i--);
-                    }
-                }
-            }
-            // новые записи
-            foreach (var sm in model.StoragedBillets)
-            {
-                source.StorageBillets.Add(new StorageBillet
-                {
-                    Id = ++maxSMId,
-                    StorageId = storage.Id,
-                    BilletId = sm.Key,
-                    Count = sm.Value.Item2
-                });
-            }
-            return storage;
-        }
-
         private StorageViewModel CreateViewModel(Storage storage)
         {
             // требуется дополнительно получить список компонентов для хранилища с
