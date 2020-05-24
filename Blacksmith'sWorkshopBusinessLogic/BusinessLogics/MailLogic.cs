@@ -57,6 +57,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network; 
                         objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
                         await Task.Run(() => objSmtpClient.SendMailAsync(objMailMessage));
+
                     }
                     catch (Exception) { throw; }
                 }

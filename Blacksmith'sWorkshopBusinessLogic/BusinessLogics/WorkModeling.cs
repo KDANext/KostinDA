@@ -45,7 +45,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             foreach (var order in runOrders)
             {
                 Thread.Sleep(implementer.WorkingTime * rnd.Next(1, 5) * order.Count);
-
                 mainLogic.FinishOrder(new ChangeStatusBindingModel { OrderId = order.Id, ImplementerId = implementer.Id });
                 Thread.Sleep(implementer.PauseTime);
             }

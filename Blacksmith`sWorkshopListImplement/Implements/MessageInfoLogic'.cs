@@ -18,7 +18,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
 
         public void Create(MessageInfoBindingModel model)
         {
-            foreach (var messageInfo in source.MessageInfoes)
+            foreach (var messageInfo in source.MessageInfos)
             {
                 if (messageInfo.MessageId == model.MessageId)
                 {
@@ -33,7 +33,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                     clientId = client.Id;
                 }
             }
-            source.MessageInfoes.Add(new MessageInfo
+            source.MessageInfos.Add(new MessageInfo
             {
                 MessageId = model.MessageId,
                 ClientId = clientId,
@@ -47,7 +47,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         public List<MessageInfoViewModel> Read(MessageInfoBindingModel model)
         {
             List<MessageInfoViewModel> result = new List<MessageInfoViewModel>();
-            foreach (var messageInfo in source.MessageInfoes)
+            foreach (var messageInfo in source.MessageInfos)
             {
                 if (messageInfo != null)
                 {

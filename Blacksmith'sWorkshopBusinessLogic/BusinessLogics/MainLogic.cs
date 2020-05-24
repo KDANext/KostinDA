@@ -69,7 +69,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                     MailAddress = clientLogic.Read(new ClientBindingModel 
                     { 
                         Id = order.ClientId 
-                    })?[0]?.Email,
+                    })?[0]?.Login,
                     Subject = $"Заказ №{order.Id}",
                     Text = $"Заказ №{order.Id} передан в работу."
                 });
@@ -101,7 +101,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             { 
                 MailAddress = clientLogic.Read(new ClientBindingModel 
                 { 
-                    Id = order.ClientId })?[0]?.Email,
+                    Id = order.ClientId })?[0]?.Login,
                 Subject = $"Заказ №{order.Id}",
                 Text = $"Заказ №{order.Id} готов." 
             });
@@ -137,7 +137,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 MailAddress = clientLogic.Read(new ClientBindingModel
                 {
                     Id = order.ClientId
-                })?[0]?.Email,
+                })?[0]?.Login,
                 Subject = $"Заказ №{order.Id}",
                 Text = $"Заказ №{order.Id} Оплачен."
             });
