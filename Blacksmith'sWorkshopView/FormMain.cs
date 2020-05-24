@@ -156,6 +156,18 @@ namespace Blacksmith_sWorkshopView
         private void рецептыToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = Container.Resolve<FormReportProductBillets>(); 
+			form.ShowDialog();
+        }
+		
+        private void складыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorages>();
+            form.ShowDialog();
+        }
+
+        private void заказНаЗаготовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormOrderBillet>();
             form.ShowDialog();
         }
     }

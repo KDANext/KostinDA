@@ -4,14 +4,16 @@ using Blacksmith_sWorkshopDatebaseImplement;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlacksmithsWorkshopDatebaseImplement.Migrations
 {
     [DbContext(typeof(BlacksmithsWorkshopDatebase))]
-    partial class BlacksmithsWorkshopDatebaseModelSnapshot : ModelSnapshot
+    [Migration("20200510212442_lab3hard")]
+    partial class lab3hard
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +172,7 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                         .IsRequired();
 
                     b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Product", "Product")
-                        .WithMany("ProductBillets")
+                        .WithMany("ForgeProductBillets")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

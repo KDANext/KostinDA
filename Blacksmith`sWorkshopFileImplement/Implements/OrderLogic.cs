@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blacksmith_sWorkshopFileImplement
+namespace Blacksmith_sWorkshopFileImplement.Implements
 {
     public class OrderLogic : IOrderLogic
     {
