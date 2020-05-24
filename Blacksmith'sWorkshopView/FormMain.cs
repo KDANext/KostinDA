@@ -69,45 +69,6 @@ namespace Blacksmith_sWorkshopView
             form.ShowDialog(); LoadData();
         }
 
-        private void buttonTakeOrderInWork_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                if (dataGridView.SelectedRows.Count == 1)
-                {
-                    int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                    try
-                    {
-                        logic.TakeOrderInWork(new ChangeStatusBindingModel { OrderId = id });
-                        LoadData();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                       MessageBoxIcon.Error);
-                    }
-                }
-            }
-        }
-
-        private void buttonOrderReady_Click(object sender, EventArgs e)
-        {
-            if (dataGridView.SelectedRows.Count == 1)
-            {
-                int id = Convert.ToInt32(dataGridView.SelectedRows[0].Cells[0].Value);
-                try
-                {
-                    logic.FinishOrder(new ChangeStatusBindingModel { OrderId = id });
-                    LoadData();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
-                   MessageBoxIcon.Error);
-                }
-            }
-        }
-
         private void buttonPayOrder_Click(object sender, EventArgs e)
         {
             if (dataGridView.SelectedRows.Count == 1)
