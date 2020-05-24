@@ -17,12 +17,14 @@ namespace Blacksmith_sWorkshopFileImplement
         private readonly string ProductBilletFileName = "ProductBillet.xml";
         private readonly string ClientFileName = "Client.xml";
         private readonly string ImplementerFileName = "Implementer.xml";
+        private readonly string MessageInfoFileName = "MessageInfo.xml";
         public List<Billet> Billets { get; set; }
         public List<Order> Orders { get; set; }
         public List<Product> Products { get; set; }
         public List<ProductBillet> ProductBillets { get; set; }
         public List<Client> Clients { get; set; }
         public List<Implementer> Implementers { get; set; }
+        public List<MessageInfo> MessageInfos { get; set; }
         private FileDataListSingleton()
         {
             Billets = LoadBillets();
@@ -31,6 +33,30 @@ namespace Blacksmith_sWorkshopFileImplement
             ProductBillets = LoadProductBillets();
             Clients = LoadClients();
             Implementers = LoadImplementers();
+            MessageInfos = LoadMessageInfos();
+        }
+
+        private List<MessageInfo> LoadMessageInfos()
+        {
+            var list = new List<MessageInfo>();
+            if (File.Exists(MessageInfoFileName))
+            {
+                XDocument xDocument = XDocument.Load(MessageInfoFileName);
+                var xElements = xDocument.Root.Elements("MessageInfos").ToList();
+                foreach (var elem in xElements)
+                {
+                    list.Add(new MessageInfo
+                    {
+                        Body = elem.Element("Body").Value,
+                        ClientId = Convert.ToInt32(elem.Element("ClientId").Value),
+                        DateDelivery = Convert.ToDateTime(elem.Element("DateDelivery").Value),
+                        MessageId = elem.Element("MessageId").Value,
+                        SenderName = elem.Element("SenderName").Value,
+                        Subject = elem.Element("Subject").Value
+                    });
+                }
+            }
+            return list;
         }
 
         private List<Implementer> LoadImplementers()
@@ -110,6 +136,27 @@ namespace Blacksmith_sWorkshopFileImplement
             SaveProductBillets();
             SaveClients();
             SaveImplementers();
+            SaveMessageInfos();
+        }
+
+        private void SaveMessageInfos()
+        {
+            if(MessageInfos != null)
+            {
+                var xElement = new XElement("MessageInfos");
+                foreach (var message in MessageInfos)
+                {
+                    xElement.Add(
+                        new XElement("MessageInfo",
+                        new XElement("Body",message.Body),
+                        new XElement("ClientId", message.ClientId),
+                        new XElement("DateDelivery", message.DateDelivery),
+                        new XElement("MessageId", message.MessageId),
+                        new XElement("SenderName", message.SenderName),
+                        new XElement("Subject", message.Subject)
+                        ));
+                }
+            }
         }
 
         private void SaveImplementers()
