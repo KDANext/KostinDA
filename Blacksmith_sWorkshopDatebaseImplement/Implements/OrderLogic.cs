@@ -68,6 +68,7 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
             {
                 Id = rec.Id,
                 ProductName = rec.Product.ProductName,
+                ProductId = rec.ProductId,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,

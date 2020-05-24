@@ -106,7 +106,8 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         private bool CheckingStoragedBillet(int ProductId, int ProductCount)
         {
             var storages = storageLogic.Read(null);
-            var ProductBillet = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0].ProductBillets;
+            var temp = productLogic.Read(new ProductBindingModel() { Id = ProductId });
+            var ProductBillet = temp[0].ProductBillets;
             var BilletStorages = new Dictionary<int, int>(); // Ключ,Количество
             foreach (var storage in storages)
             {

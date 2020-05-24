@@ -163,6 +163,7 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
                         }
                     }
                 }
+                context.SaveChanges();
             }
         }
     }
