@@ -27,7 +27,6 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ClientFIO = table.Column<string>(nullable: false),
-                    Email = table.Column<string>(nullable: true),
                     Login = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false)
                 },

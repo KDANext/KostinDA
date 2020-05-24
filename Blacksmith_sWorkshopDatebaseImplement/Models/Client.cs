@@ -10,7 +10,6 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
         public int Id { get; set; }
         [Required]
         public string ClientFIO { get; set; }
-        public string Email { get; set; }
         [Required]
         public string Login { get; set; }
         [Required]

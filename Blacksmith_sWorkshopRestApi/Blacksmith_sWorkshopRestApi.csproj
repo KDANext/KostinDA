@@ -6,10 +6,7 @@
 
   <ItemGroup>
     <Content Remove="App.config" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="App.config" />
+    <Content Remove="appsettings1.json" />
   </ItemGroup>
 
   <ItemGroup>

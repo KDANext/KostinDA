@@ -25,6 +25,7 @@ namespace Blacksmith_sWorkshopClientView
             {
                 List<MessageInfoViewModel> dataSourse = APIClient.GetRequest<List<MessageInfoViewModel>>($"api/client/getmessages?clientId={Program.Client.Id}");
                 dataGridView.DataSource = dataSourse;
+                dataGridView.Columns[0].Visible = false;
                 dataGridView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             catch (Exception ex)

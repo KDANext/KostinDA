@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Blacksmith_sWorkshopBusinessLogic.HelperModels;
+using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -12,7 +14,7 @@ namespace Blacksmith_sWorkshopRestApi
     public class Program
     {
         public static void Main(string[] args)
-        {
+        {           
             CreateHostBuilder(args).Build().Run();
         }
 

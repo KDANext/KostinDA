@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blacksmith_sWorkshopDatebaseImplement.Migrations
 {
     [DbContext(typeof(BlacksmithsWorkshopDatebase))]
-    [Migration("20200511101304_lab7-2")]
-    partial class lab72
+    [Migration("20200518072105_lab7")]
+    partial class lab7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,9 +73,6 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Migrations
 
                     b.Property<string>("ClientFIO")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Login")

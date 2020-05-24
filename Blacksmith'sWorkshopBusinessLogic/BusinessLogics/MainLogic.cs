@@ -32,7 +32,8 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             { 
                 MailAddress = clientLogic.Read(new ClientBindingModel
                 { 
-                Id = model.ClientId})?[0]?.Email,
+                Id = model.ClientId
+                })?[0]?.Login,
                 Subject = $"Новый заказ",
                 Text = $"Заказ принят." 
             });

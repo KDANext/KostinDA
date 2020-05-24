@@ -56,8 +56,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                         objSmtpClient.EnableSsl = true;
                         objSmtpClient.DeliveryMethod = SmtpDeliveryMethod.Network; 
                         objSmtpClient.Credentials = new NetworkCredential(mailLogin, mailPassword);
-
-                        await Task.Run(() => objSmtpClient.SendAsync(objMailMessage, null));
+                        await Task.Run(() => objSmtpClient.SendMailAsync(objMailMessage));
                     }
                     catch (Exception) { throw; }
                 }
@@ -98,7 +97,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                                 MessageId = message.MessageId, 
                                 FromMailAddress = mail.Address, 
                                 Subject = message.Subject, 
-                                Body = message.TextBody 
+                                Body = message.TextBody
                             }); 
                         }
                     }
