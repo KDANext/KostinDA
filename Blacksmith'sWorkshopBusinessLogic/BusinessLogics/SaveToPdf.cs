@@ -100,5 +100,53 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             cellParameters.Cell.Format.Alignment = cellParameters.ParagraphAlignment;
             cellParameters.Cell.VerticalAlignment = VerticalAlignment.Center;
         }
+
+        public static void CreateDocStorage(PdfInfoStorage info)
+        {
+            Document document = new Document();
+            DefineStyles(document);
+            Section section = document.AddSection();
+            Paragraph paragraph = section.AddParagraph(info.Title);
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "NormalTitle";
+            paragraph.Format.SpaceAfter = "1cm";
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Style = "Normal";
+            var table = document.LastSection.AddTable();
+            List<string> columns = new List<string> { "4cm", "4cm", "4cm" };
+            foreach (var elem in columns)
+            {
+                table.AddColumn(elem);
+            }
+            CreateRow(new PdfRowParameters
+            {
+                Table = table,
+                Texts = new List<string> { "Склад", "Компонент", "Количество" },
+                Style = "NormalTitle",
+                ParagraphAlignment = ParagraphAlignment.Center
+            });
+            foreach (var storageBillet in info.StorageBillets)
+            {
+                CreateRow(new PdfRowParameters
+                {
+                    Table = table,
+                    Texts = new List<string> {
+                    storageBillet.StorageName,
+                    storageBillet.BilletName,
+                    storageBillet.Count.ToString(),
+                },
+                    Style = "Normal",
+                    ParagraphAlignment = ParagraphAlignment.Left
+                });
+            }
+            PdfDocumentRenderer renderer = new PdfDocumentRenderer(true,
+            PdfSharp.Pdf.PdfFontEmbedding.Always)
+            {
+                Document = document
+            };
+            renderer.RenderDocument();
+            renderer.PdfDocument.Save(info.FileName);
+        }
     }
 }

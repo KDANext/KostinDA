@@ -209,6 +209,12 @@
     <Compile Include="BilletsForm.Designer.cs">
       <DependentUpon>BilletsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormBilletStorage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormBilletStorage.Designer.cs">
+      <DependentUpon>FormBilletStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormClientOrders.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -256,11 +262,18 @@
     </Compile>
     <Compile Include="FormReportProductBillets.Designer.cs">
       <DependentUpon>FormReportProductBillets.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormStorage.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormStorage.Designer.cs">
       <DependentUpon>FormStorage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormStorageLoad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormStorageLoad.Designer.cs">
+      <DependentUpon>FormStorageLoad.cs</DependentUpon>
     </Compile>
     <Compile Include="FormStorages.cs">
       <SubType>Form</SubType>
@@ -275,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BilletsForm.resx">
       <DependentUpon>BilletsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormBilletStorage.resx">
+      <DependentUpon>FormBilletStorage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormClientOrders.resx">
       <DependentUpon>FormClientOrders.cs</DependentUpon>
@@ -299,8 +315,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormReportProductBillets.resx">
       <DependentUpon>FormReportProductBillets.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormStorage.resx">
       <DependentUpon>FormStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormStorageLoad.resx">
+      <DependentUpon>FormStorageLoad.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStorages.resx">
       <DependentUpon>FormStorages.cs</DependentUpon>
@@ -316,12 +336,14 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="Report.rdlc" />
+    <EmbeddedResource Include="Report1.rdlc" />
     <None Include="packages.config" />
     <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.BilletViewModel.datasource" />
     <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.OrderViewModel.datasource" />
     <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.ProductViewModel.datasource" />
     <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.ReportOrdersViewModel.datasource" />
     <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.ReportProductBilletViewModel.datasource" />
+    <None Include="Properties\DataSources\Blacksmith_sWorkshopBusinessLogic.ViewModels.ReportStorageBilletViewModel.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

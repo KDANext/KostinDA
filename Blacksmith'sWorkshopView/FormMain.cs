@@ -170,5 +170,33 @@ namespace Blacksmith_sWorkshopView
             var form = Container.Resolve<FormOrderBillet>();
             form.ShowDialog();
         }
+
+        private void складыToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            using (var dialog = new SaveFileDialog { Filter = "docx|*.docx" })
+            {
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    report.SaveStoragesToWordFile(new ReportBindingModel
+                    {
+                        FileName = dialog.FileName
+                    });
+                    MessageBox.Show("Выполнено", "Успех", MessageBoxButtons.OK,
+                   MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        private void загруженостьСкладовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormStorageLoad>();
+            form.ShowDialog();
+        }
+
+        private void складыИЗаготовкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = Container.Resolve<FormBilletStorage>();
+            form.ShowDialog();
+        }
     }
 }

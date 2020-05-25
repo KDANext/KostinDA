@@ -13,12 +13,13 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         private readonly IBilletLogic billetLogic;
         private readonly IProductLogic productLogic;
         private readonly IOrderLogic orderLogic;
-        public ReportLogic(IProductLogic productLogic, IBilletLogic BilletLogic,
-       IOrderLogic orderLLogic)
+        private readonly IStorageLogic storageLogic;
+        public ReportLogic(IProductLogic productLogic, IBilletLogic BilletLogic,IOrderLogic orderLLogic, IStorageLogic storageLogic)
         {
             this.productLogic = productLogic;
             this.billetLogic = BilletLogic;
             this.orderLogic = orderLLogic;
+            this.storageLogic = storageLogic;
         }
         /// <summary>
         /// Получение списка компонент с указанием, в каких изделиях используются
@@ -103,6 +104,60 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 FileName = model.FileName,
                 Title = "Список нужных заготовок на продукты",
                 ProductBillets = GetProductBillet()
+            });
+        }
+        public List<ReportStorageBilletViewModel> GetStorageBillets()
+        {
+            return storageLogic.Read(null)
+                .Select(x => x.StoragedBillets
+                        .Select(sc => new ReportStorageBilletViewModel
+                        {
+                            StorageName = x.StorageName,
+                            BilletName = sc.Value.Item1,
+                            Count = sc.Value.Item2
+                        }))
+                .SelectMany(scl => scl)
+                .ToList();
+        }
+        public List<ReportStorageViewModel> GetStorageWithBillets()
+        {
+            return storageLogic.Read(null)
+                .Select(x => new ReportStorageViewModel
+                {
+                    StorageName = x.StorageName,
+                    Billets = x.StoragedBillets
+                        .Select(
+                            sc => new Tuple<string, int>(sc.Value.Item1, sc.Value.Item2)
+                        ).ToList(),
+                    TotalCount = x.StoragedBillets.Sum(sc => sc.Value.Item2)
+                })
+                .ToList();
+        }
+        public void SaveStoragesToWordFile(ReportBindingModel model)
+        {
+            SaveToWord.CreateDocStorages(new WordInfoStorage
+            {
+                FileName = model.FileName,
+                Title = "Список складов",
+                Storages = storageLogic.Read(null)
+            });
+        }
+        public void SaveStoragesToExcelFile(ReportBindingModel model)
+        {
+            SaveToExcel.CreateDocStorages(new ExcelInfoStorage
+            {
+                FileName = model.FileName,
+                Title = "Список складов с заготовками",
+                Storages = GetStorageWithBillets()
+            });
+        }
+        public void SaveStorageComponentsToPdfFile(ReportBindingModel model)
+        {
+            SaveToPdf.CreateDocStorage(new PdfInfoStorage
+            {
+                FileName = model.FileName,
+                Title = "Список заготовок на складах",
+                StorageBillets = GetStorageBillets()
             });
         }
     }
