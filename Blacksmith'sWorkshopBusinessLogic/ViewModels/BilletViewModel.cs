@@ -1,11 +1,13 @@
-﻿using System.ComponentModel;
+﻿using Blacksmith_sWorkshopBusinessLogic.Attributes;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace Blacksmith_sWorkshopBusinessLogic.ViewModels
 {
-    public class BilletViewModel
+    public class BilletViewModel : BaseViewModel
     {
-        public int Id { get; set; }
-        [DisplayName("Название заготовки")]
+        [Column(title: "Заготовки", width: 100)]
         public string BilletName { get; set; }
+        public override List<string> Properties() => new List<string> { "Id","BilletName" };
     }
 }

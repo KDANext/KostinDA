@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Blacksmith_sWorkshopBusinessLogic.Attributes
 {
-    public class ColumnAttribute
+    public class ColumnAttribute : Attribute
     {
         public ColumnAttribute(string title = "", bool visible = true, int width = 0, GridViewAutoSize gridViewAutoSize = GridViewAutoSize.None)
         {
