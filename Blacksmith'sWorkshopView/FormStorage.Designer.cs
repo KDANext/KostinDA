@@ -103,7 +103,7 @@
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label1);
             this.Name = "FormStorage";
-            this.Text = "FormStorage";
+            this.Text = "Склад";
             this.Load += new System.EventHandler(this.FormStorage_Load);
             this.groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
