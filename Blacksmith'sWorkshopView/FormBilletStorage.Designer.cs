@@ -31,9 +31,9 @@
             this.components = new System.ComponentModel.Container();
             Microsoft.Reporting.WinForms.ReportDataSource reportDataSource1 = new Microsoft.Reporting.WinForms.ReportDataSource();
             this.reportViewer = new Microsoft.Reporting.WinForms.ReportViewer();
-            this.ReportStorageBilletViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.buttonCreate = new System.Windows.Forms.Button();
             this.buttonSave = new System.Windows.Forms.Button();
+            this.ReportStorageBilletViewModelBindingSource = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ReportStorageBilletViewModelBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,10 +48,6 @@
             this.reportViewer.ServerReport.BearerToken = null;
             this.reportViewer.Size = new System.Drawing.Size(776, 387);
             this.reportViewer.TabIndex = 0;
-            // 
-            // ReportStorageBilletViewModelBindingSource
-            // 
-            this.ReportStorageBilletViewModelBindingSource.DataSource = typeof(Blacksmith_sWorkshopBusinessLogic.ViewModels.ReportStorageBilletViewModel);
             // 
             // buttonCreate
             // 
@@ -73,6 +69,10 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
+            // ReportStorageBilletViewModelBindingSource
+            // 
+            this.ReportStorageBilletViewModelBindingSource.DataSource = typeof(Blacksmith_sWorkshopBusinessLogic.ViewModels.ReportStorageBilletViewModel);
+            // 
             // FormBilletStorage
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -82,7 +82,7 @@
             this.Controls.Add(this.buttonCreate);
             this.Controls.Add(this.reportViewer);
             this.Name = "FormBilletStorage";
-            this.Text = "FormBilletStorage";
+            this.Text = "Заготовки на складах";
             this.Load += new System.EventHandler(this.FormBilletStorage_Load);
             ((System.ComponentModel.ISupportInitialize)(this.ReportStorageBilletViewModelBindingSource)).EndInit();
             this.ResumeLayout(false);
