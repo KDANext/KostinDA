@@ -63,31 +63,22 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                     CellToName = "C1"
                 });
                 uint rowIndex = 2;
+                decimal totalSumma = 0;
                 List<DateTime> dates = new List<DateTime>();
-                foreach (var order in info.Orders)
+                foreach (var group in info.Orders)
                 {
-                    if (!dates.Contains(order.DateCreate.Date))
-                    {
-                        dates.Add(order.DateCreate.Date);
-                    }
-                }
-
-                foreach (var date in dates)
-                {
-                    decimal GenSum = 0;
-
+                    decimal promSum = 0;
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
                         ColumnName = "A",
                         RowIndex = rowIndex,
-                        Text = date.Date.ToShortDateString(),
+                        Text = group.Key.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
-
-                    foreach (var order in info.Orders.Where(rec => rec.DateCreate.Date == date.Date))
+                    foreach (var order in group)
                     {
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
@@ -98,41 +89,67 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                             Text = order.ProductName,
                             StyleIndex = 1U
                         });
-
                         InsertCellInWorksheet(new ExcelCellParameters
                         {
                             Worksheet = worksheetPart.Worksheet,
                             ShareStringPart = shareStringPart,
                             ColumnName = "C",
                             RowIndex = rowIndex,
+                            Text = order.Count.ToString(),
+                            StyleIndex = 1U
+                        });
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "D",
+                            RowIndex = rowIndex,
                             Text = order.Sum.ToString(),
                             StyleIndex = 1U
                         });
-                        GenSum += order.Sum;
+                        InsertCellInWorksheet(new ExcelCellParameters
+                        {
+                            Worksheet = worksheetPart.Worksheet,
+                            ShareStringPart = shareStringPart,
+                            ColumnName = "E",
+                            RowIndex = rowIndex,
+                            Text = order.Status.ToString(),
+                            StyleIndex = 1U
+                        });
+                        totalSumma += order.Sum;
+                        promSum += order.Sum;
                         rowIndex++;
                     }
-
                     InsertCellInWorksheet(new ExcelCellParameters
                     {
                         Worksheet = worksheetPart.Worksheet,
                         ShareStringPart = shareStringPart,
-                        ColumnName = "A",
+                        ColumnName = "D",
                         RowIndex = rowIndex,
-                        Text = "За этот день всего:",
-                        StyleIndex = 0U
-                    });
-
-                    InsertCellInWorksheet(new ExcelCellParameters
-                    {
-                        Worksheet = worksheetPart.Worksheet,
-                        ShareStringPart = shareStringPart,
-                        ColumnName = "C",
-                        RowIndex = rowIndex,
-                        Text = GenSum.ToString(),
+                        Text = promSum.ToString(),
                         StyleIndex = 0U
                     });
                     rowIndex++;
                 }
+                rowIndex++;
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    ShareStringPart = shareStringPart,
+                    ColumnName = "C",
+                    RowIndex = rowIndex,
+                    Text = "Итог: ",
+                    StyleIndex = 0U
+                });
+                InsertCellInWorksheet(new ExcelCellParameters
+                {
+                    Worksheet = worksheetPart.Worksheet,
+                    ShareStringPart = shareStringPart,
+                    ColumnName = "D",
+                    RowIndex = rowIndex,
+                    Text = totalSumma.ToString(),
+                    StyleIndex = 0U
+                });
                 workbookpart.Workbook.Save();
             }
         }
