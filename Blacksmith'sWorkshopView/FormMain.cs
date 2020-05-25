@@ -16,13 +16,15 @@ namespace Blacksmith_sWorkshopView
         private readonly IOrderLogic orderLogic;
         private readonly ReportLogic report;
         private readonly WorkModeling workModeling;
-        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report, WorkModeling workModeling)
+        private readonly BackUpAbstractLogic backUpLogic;
+        public FormMain(MainLogic logic, IOrderLogic orderLogic, ReportLogic report, WorkModeling workModeling, BackUpAbstractLogic backUpLogic)
         {
             InitializeComponent();
             this.logic = logic;
             this.orderLogic = orderLogic;
             this.report = report;
-            this.workModeling = workModeling; 
+            this.workModeling = workModeling;
+            this.backUpLogic = backUpLogic;
         }
         private void FormMain_Load(object sender, EventArgs e)
         {
@@ -192,6 +194,29 @@ namespace Blacksmith_sWorkshopView
         {
             var form = Container.Resolve<FormMails>();
             form.ShowDialog();
+        }
+
+        private void создатьБекапToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (backUpLogic != null)
+                {
+                    var fbd = new FolderBrowserDialog();
+                    if (fbd.ShowDialog() == DialogResult.OK)
+                    {
+                        backUpLogic.CreateArchive(fbd.SelectedPath);
+                        MessageBox.Show("Бекап создан", "Сообщение",
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK,
+               MessageBoxIcon.Error);
+            }
+
         }
     }
 }

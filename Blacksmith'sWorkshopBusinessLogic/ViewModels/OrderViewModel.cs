@@ -1,12 +1,13 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.Enums;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace Blacksmith_sWorkshopBusinessLogic.ViewModels
 {
     [DataContract]
-    public class OrderViewModel
+    public class OrderViewModel : BaseViewModel
     {
         [DataMember]
         public int Id { get; set; }
@@ -40,5 +41,9 @@ namespace Blacksmith_sWorkshopBusinessLogic.ViewModels
         [DataMember]
         [DisplayName("Дата выполнения")]
         public DateTime? DateImplement { get; set; }
+        public override List<string> Properties() => new List<string> { "Id",
+"ClientFIO", "ProductName", "ImplementerFIO", "Count", "Sum", "Status", "DateCreate",
+"DateImplement" };
+
     }
 }
