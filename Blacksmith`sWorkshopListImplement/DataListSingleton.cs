@@ -17,11 +17,15 @@ namespace Blacksmith_sWorkshopListImplement
 
         public List<ProductBillet> ProductBillets { get; set; }
 
+        public List<Client> Clients { get; set; }
+
         private DataListSingleton() {
             Billets = new List<Billet>();
             Orders = new List<Order>();
             Products = new List<Product>();
-            ProductBillets = new List<ProductBillet>(); }
+            ProductBillets = new List<ProductBillet>();
+            Clients = new List<Client>();
+        }
 
         public static DataListSingleton GetInstance()
         {

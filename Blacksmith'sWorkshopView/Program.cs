@@ -1,6 +1,6 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
-using BlacksmithsWorkshopDatebaseImplement.Implements;
+using Blacksmith_sWorkshopDatebaseImplement.Implements;
 using System;
 using System.Windows.Forms;
 using Unity;
@@ -29,6 +29,8 @@ namespace Blacksmith_sWorkshopView
             currentContainer.RegisterType<IOrderLogic, OrderLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<IProductLogic, ProductLogic>(new
+           HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IClientLogic, ClientLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
             currentContainer.RegisterType<ReportLogic>(new HierarchicalLifetimeManager());

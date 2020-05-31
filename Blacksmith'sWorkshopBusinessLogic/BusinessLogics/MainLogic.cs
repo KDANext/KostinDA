@@ -16,6 +16,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         {
             orderLogic.CreateOrUpdate(new OrderBindingModel
             {
+                ClientId = model.ClientId,
                 ProductId = model.ProductId,
                 Count = model.Count,
                 Sum = model.Sum,
