@@ -27,12 +27,13 @@ namespace Blacksmith_sWorkshopClientView
             {
                 try
                 {
-                    APIClient.PostRequest<ClientBindingModel>($"api/maim/getorders?clientId={Program.Client.Id}", new ClientBindingModel
+                    APIClient.PostRequest($"api/client/updatedata", new ClientBindingModel
                     {
-                        Login = textBoxLogin.Text,
-                        Password = textBoxPassword.Text,
+                        Id = Program.Client.Id,
                         ClientFIO = textBoxClientFIO.Text,
-                    }) ;
+                        Login = textBoxLogin.Text,
+                        Password = textBoxPassword.Text
+                    });
                     MessageBox.Show("Обновление прошло успешно", "Сообщение",
                    MessageBoxButtons.OK, MessageBoxIcon.Information);
                     Program.Client.ClientFIO = textBoxClientFIO.Text;
