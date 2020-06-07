@@ -70,7 +70,7 @@
             this.buttonSave.UseVisualStyleBackColor = true;
             this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
             // 
-            // BilletForm
+            // FormBillet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -79,7 +79,7 @@
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.textBoxName);
             this.Controls.Add(this.label1);
-            this.Name = "BilletForm";
+            this.Name = "FormBillet";
             this.Text = "Заготовка";
             this.ResumeLayout(false);
             this.PerformLayout();

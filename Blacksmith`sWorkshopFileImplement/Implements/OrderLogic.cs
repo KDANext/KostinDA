@@ -1,4 +1,5 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.Enums;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopFileImplement.Models;
@@ -30,11 +31,13 @@ namespace Blacksmith_sWorkshopFileImplement
                 order.Status = model.Status;
                 order.ProductId = model.ProductId;
                 order.ClientId = model.ClientId;
+                order.ImplementerId = model.ImplementerId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
                 order.Status = model.Status;
                 order.Sum = model.Sum;
+                order.FreeOrders = model.FreeOrders;
             }
             else
             {
@@ -42,11 +45,14 @@ namespace Blacksmith_sWorkshopFileImplement
                 order = new Order { Id = maxId + 1 };
                 order.ProductId = model.ProductId;
                 order.ClientId = model.ClientId;
+                order.ImplementerId = model.ImplementerId;
                 order.Count = model.Count;
                 order.DateCreate = model.DateCreate;
                 order.DateImplement = model.DateImplement;
                 order.Status = model.Status;
                 order.Sum = model.Sum;
+                order.FreeOrders = model.FreeOrders;
+
                 source.Orders.Add(order);
             }
         }
@@ -72,19 +78,27 @@ namespace Blacksmith_sWorkshopFileImplement
                     || (rec.Id == model.Id && model.Id.HasValue)
                     || (model.DateFrom.HasValue && model.DateTo.HasValue && rec.DateCreate >= model.DateFrom && rec.DateCreate <= model.DateTo)
                     || (rec.ClientId == model.ClientId)
+                    || (model.FreeOrders.HasValue && model.FreeOrders.Value && !rec.ImplementerId.HasValue)
+                    || (model.ImplementerId.HasValue && rec.ImplementerId == model.ImplementerId && rec.Status == OrderStatus.Выполняется)
                 )
             .Select(rec => new OrderViewModel
             {
                 Id = rec.Id,
                 ProductId = rec.ProductId,
                 ClientId = rec.ClientId,
+                ImplementerId = rec.ImplementerId,
                 ProductName = source.Products.FirstOrDefault(r => r.Id == rec.ProductId).ProductName,
                 ClientFIO = source.Clients.FirstOrDefault(r => r.Id == rec.ClientId).ClientFIO,
+                ImplementerFIO = rec.ImplementerId.HasValue 
+                                    ?
+                                    source.Implementers.FirstOrDefault((im) => im.Id == rec.ImplementerId).ImplementerFIO
+                                    : 
+                                    string.Empty,
                 Count = rec.Count,
                 Sum = rec.Sum,
                 Status = rec.Status,
                 DateCreate = rec.DateCreate,
-                DateImplement = rec.DateImplement
+                DateImplement = rec.DateImplement,
             })
             .ToList();
         }

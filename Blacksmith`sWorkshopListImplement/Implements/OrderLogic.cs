@@ -32,6 +32,14 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 {
                     tempOrder = order;
                 }
+                else if (model.FreeOrders.HasValue && model.FreeOrders.Value && !order.ImplementerId.HasValue)
+                {
+                    tempOrder = order;
+                }
+                else if (model.ImplementerId.HasValue && model.ImplementerId.Value == order.ImplementerId && order.Status == Blacksmith_sWorkshopBusinessLogic.Enums.OrderStatus.Выполняется)
+                {
+                    tempOrder = order;
+                }
             }
             if (model.Id.HasValue)
             {
@@ -94,14 +102,17 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             order.DateImplement = model.DateImplement;
             order.ProductId = model.ProductId;
             order.ClientId = model.ClientId;
+            order.ImplementerId = model.ImplementerId;
             order.Status = model.Status;
             order.Sum = model.Sum;
+            order.FreeOrders = model.FreeOrders;
             return order;
         }
         private OrderViewModel CreateViewModel(Order order)
         {
             var productName = source.Products.FirstOrDefault((n) => n.Id == order.ProductId).ProductName;
             var clientFIO = source.Clients.FirstOrDefault((n) => n.Id == order.ClientId).ClientFIO;
+            var implementerFIO = source.Implementers.FirstOrDefault((n) => n.Id == order.ImplementerId).ImplementerFIO;
             return new OrderViewModel
             {
                 Id = order.Id,
@@ -110,6 +121,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 DateImplement = order.DateImplement,
                 ProductName = productName,
                 ClientFIO = clientFIO,
+                ImplementerFIO = implementerFIO,
                 ProductId = order.ProductId,
                 Status = order.Status,
                 Sum = order.Sum
