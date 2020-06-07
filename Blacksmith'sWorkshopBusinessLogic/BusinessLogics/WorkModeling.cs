@@ -12,9 +12,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
     public class WorkModeling
     {
         private readonly IImplementerLogic implementerLogic;
-
         private readonly IOrderLogic orderLogic;
-
         private readonly MainLogic mainLogic;
         private readonly Random rnd;
 
@@ -25,7 +23,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             this.mainLogic = mainLogic;
             rnd = new Random(1000);
         }
-
         public void DoWork()
         {
             var implementers = implementerLogic.Read(null);
@@ -36,7 +33,6 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 WorkerWorkAsync(implementer, orders); 
             }
         }
-
         private async void WorkerWorkAsync(ImplementerViewModel implementer, List<OrderViewModel> orders)
         {
             var runOrders = await Task.Run(() => orderLogic.Read(new OrderBindingModel { 
@@ -65,12 +61,3 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         }
     }
 }
-
-
-
-
-
-
-
-
-

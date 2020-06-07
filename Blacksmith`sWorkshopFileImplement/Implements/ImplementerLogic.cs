@@ -18,7 +18,11 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
         }
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
-            Implementer element;
+            Implementer element = source.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+            if (element != null)
+            {
+                throw new Exception("Уже есть работник с таким именем");
+            }
             if (model.Id.HasValue)
             {
                 element = source.Implementers.FirstOrDefault(rec => rec.Id == model.Id);
