@@ -35,7 +35,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (CheckingStoragedBillet(order.ProductId, order.Count))
+            if (storageLogic.CheckingStoragedBillet(order.ProductId, order.Count))
             {
                 if (order.Status != OrderStatus.Принят)
                 {
@@ -102,31 +102,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Оплачен
             });
         }
-      
-        private bool CheckingStoragedBillet(int ProductId, int ProductCount)
-        {
-            var storages = storageLogic.Read(null);
-            var ProductBillet = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0].ProductBillets;
-            var BilletStorages = new Dictionary<int, int>(); // Ключ,Количество
-            foreach (var storage in storages)
-            {
-                foreach (var sm in storage.StoragedBillets)
-                {
-                    if (BilletStorages.ContainsKey(sm.Key))
-                        BilletStorages[sm.Key] += sm.Value.Item2;
-                    else
-                        BilletStorages.Add(sm.Key, sm.Value.Item2);
-                }
-            }
-
-            foreach (var dm in ProductBillet)
-            {
-                if (!BilletStorages.ContainsKey(dm.Key) || BilletStorages[dm.Key] < dm.Value.Item2 * ProductCount)
-                    return false;
-            }
-            return true;
-        }
-      
+     
         public void AddBillets(StorageAddBilletBindingModel model)
         {
             storageLogic.AddBilletToStorage(model);
