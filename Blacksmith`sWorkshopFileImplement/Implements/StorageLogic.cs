@@ -33,29 +33,7 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
                 {
                     throw new Exception("Элемент не найден");
                 }
-                var storageBillets = source.StorageBillets.Where(q => q.StorageId == element.Id).ToList();
-                //обновление материалов, связанных с текущим хранилищем
-                for (int i = 0; i < storageBillets.Count; i++)
-                {
-                    if (model.StoragedBillets.ContainsKey(storageBillets[i].BilletId))
-                        storageBillets[i].Count = model.StoragedBillets[storageBillets[i].BilletId].Item2;
-                    else
-                        storageBillets.RemoveAt(i);
-                }
-                //добавление новых материалов
-                var keysBillets = model.StoragedBillets.Keys;
-                int maxId = source.StorageBillets.Count > 0 ? source.StorageBillets.Count : 0;
-                foreach (var k in keysBillets)
-                {
-                    if (!source.StorageBillets.Where(q => q.StorageId == element.Id).Select(q => q.BilletId).Contains(k))
-                        source.StorageBillets.Add(new StorageBillet()
-                        {
-                            Id = ++maxId,
-                            BilletId = k,
-                            StorageId = element.Id,
-                            Count = model.StoragedBillets[k].Item2
-                        });
-                }
+                var storageBillets = source.StorageBillets.Where(q => q.StorageId == element.Id).ToList();               
             }
             else
             {

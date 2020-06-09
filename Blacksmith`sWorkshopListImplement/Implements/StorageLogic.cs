@@ -184,7 +184,24 @@ namespace Blacksmith_sWorkshopListImplement.Implements
 
         public void RemoveBillet(int ProductId, int ProductCount)
         {
-            throw new NotImplementedException();
+            var ProductBillets = source.ProductBillets.Where(q => q.ProductId == ProductId);
+            foreach (var q in ProductBillets)
+            {
+                int BilletCount = q.Count * ProductCount;
+                foreach (var w in source.StorageBillets)
+                {
+                    if (w.BilletId == q.BilletId && w.Count >= BilletCount)
+                    {
+                        w.Count -= BilletCount;
+                        break;
+                    }
+                    else if (w.BilletId == q.BilletId && w.Count < BilletCount)
+                    {
+                        BilletCount -= w.Count;
+                        w.Count = 0;
+                    }
+                }
+            }
         }
     }
 }
