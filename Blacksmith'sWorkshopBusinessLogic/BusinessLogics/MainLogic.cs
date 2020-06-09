@@ -3,7 +3,6 @@ using Blacksmith_sWorkshopBusinessLogic.Enums;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
 {
@@ -11,11 +10,12 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
     {
         private readonly IOrderLogic orderLogic;
         private readonly IStorageLogic storageLogic;
-
-        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic)
+        private readonly IProductLogic productLogic;
+        public MainLogic(IOrderLogic orderLogic, IStorageLogic storageLogic, IProductLogic productLogic)
         {
             this.orderLogic = orderLogic;
             this.storageLogic = storageLogic;
+            this.productLogic = productLogic;
         }
         public void CreateOrder(CreateOrderBindingModel model)
         {
@@ -30,28 +30,31 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
         }
         public void TakeOrderInWork(ChangeStatusBindingModel model)
         {
-            var order = orderLogic.Read(new OrderBindingModel
-            {
-                Id = model.OrderId
-            })?[0];
+            var order = orderLogic.Read(new OrderBindingModel { Id = model.OrderId })?[0];
             if (order == null)
             {
                 throw new Exception("Не найден заказ");
             }
-            if (order.Status != OrderStatus.Принят)
+            if (storageLogic.CheckingStoragedBillet(order.ProductId, order.Count))
             {
-                throw new Exception("Заказ не в статусе \"Принят\"");
+                if (order.Status != OrderStatus.Принят)
+                {
+                    throw new Exception("Заказ не в статусе \"Принят\"");
+                }
+                orderLogic.CreateOrUpdate(new OrderBindingModel
+                {
+                    Id = order.Id,
+                    ProductId = order.ProductId,
+                    Count = order.Count,
+                    Sum = order.Sum,
+                    DateCreate = order.DateCreate,
+                    DateImplement = DateTime.Now,
+                    Status = OrderStatus.Выполняется
+                });
+                storageLogic.RemoveBillet(order.ProductId, order.Count);
             }
-            orderLogic.CreateOrUpdate(new OrderBindingModel
-            {
-                Id = order.Id,
-                ProductId = order.ProductId,
-                Count = order.Count,
-                Sum = order.Sum,
-                DateCreate = order.DateCreate,
-                DateImplement = DateTime.Now,
-                Status = OrderStatus.Выполняется
-            });
+            else
+                throw new Exception("Не хватает заготовок на складах!");
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {
@@ -99,10 +102,10 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                 Status = OrderStatus.Оплачен
             });
         }
+     
         public void AddBillets(StorageAddBilletBindingModel model)
         {
             storageLogic.AddBilletToStorage(model);
         }
-
     }
 }

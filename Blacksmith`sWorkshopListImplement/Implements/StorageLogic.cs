@@ -11,6 +11,12 @@ namespace Blacksmith_sWorkshopListImplement.Implements
     public class StorageLogic : IStorageLogic
     {
         private readonly DataListSingleton source;
+        private readonly ProductLogic productLogic;
+
+        public StorageLogic(ProductLogic productLogic)
+        {
+            this.productLogic = productLogic;
+        }
 
         public StorageLogic()
         {
@@ -150,6 +156,51 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 }
                 else
                     Billet.Count += model.BilletCount;
+            }
+        }
+        public bool CheckingStoragedBillet(int ProductId, int ProductCount)
+        {
+            var storages = Read(null);
+            var ProductBillet = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0].ProductBillets;
+            var BilletStorages = new Dictionary<int, int>(); // Ключ,Количество
+            foreach (var storage in storages)
+            {
+                foreach (var sm in storage.StoragedBillets)
+                {
+                    if (BilletStorages.ContainsKey(sm.Key))
+                        BilletStorages[sm.Key] += sm.Value.Item2;
+                    else
+                        BilletStorages.Add(sm.Key, sm.Value.Item2);
+                }
+            }
+
+            foreach (var dm in ProductBillet)
+            {
+                if (!BilletStorages.ContainsKey(dm.Key) || BilletStorages[dm.Key] < dm.Value.Item2 * ProductCount)
+                    return false;
+            }
+            return true;
+        }
+
+        public void RemoveBillet(int ProductId, int ProductCount)
+        {
+            var ProductBillets = source.ProductBillets.Where(q => q.ProductId == ProductId);
+            foreach (var q in ProductBillets)
+            {
+                int BilletCount = q.Count * ProductCount;
+                foreach (var w in source.StorageBillets)
+                {
+                    if (w.BilletId == q.BilletId && w.Count >= BilletCount)
+                    {
+                        w.Count -= BilletCount;
+                        break;
+                    }
+                    else if (w.BilletId == q.BilletId && w.Count < BilletCount)
+                    {
+                        BilletCount -= w.Count;
+                        w.Count = 0;
+                    }
+                }
             }
         }
     }
