@@ -15,5 +15,7 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
         [Required]
         public string Password { get; set; }
         public virtual List<Order> Orders { get; set; }
+        public virtual List<MessageInfo> MessageInfos { get; set; }
+
     }
 }

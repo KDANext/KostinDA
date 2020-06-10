@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BlacksmithsWorkshopDatebaseImplement.Migrations
+namespace Blacksmith_sWorkshopDatebaseImplement.Migrations
 {
     [DbContext(typeof(BlacksmithsWorkshopDatebase))]
     partial class BlacksmithsWorkshopDatebaseModelSnapshot : ModelSnapshot
@@ -18,6 +18,33 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfoes");
+                });
 
             modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Billet", b =>
                 {
@@ -168,6 +195,13 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("ProductBillets");
+                });
+
+            modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.MessageInfo", b =>
+                {
+                    b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
                 });
 
             modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Order", b =>

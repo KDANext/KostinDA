@@ -41,6 +41,11 @@ namespace Blacksmith_sWorkshopClientView
             var form = new FormUpdateData();
             form.ShowDialog();
         }
+        private void ViewMailsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var form = new FormMails();
+            form.ShowDialog();
+        }
         private void CreateOrderToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var form = new FormCreateOrder();

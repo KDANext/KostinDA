@@ -14,6 +14,14 @@ namespace Blacksmith_sWorkshopRestApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            MailLogic.MailConfig(new Blacksmith_sWorkshopBusinessLogic.HelperModels.MailConfig
+            {
+                SmtpClientHost = Configuration["MailService:SmtpClientHost"],
+                SmtpClientPort = int.Parse(Configuration["MailService:SmtpClientPort"]),
+                MailLogin = Configuration["MailService:MailLogin"],
+                MailPassword = Configuration["MailService:MailPassword"],
+            });
+
         }
         public IConfiguration Configuration { get; }
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -23,6 +31,7 @@ namespace Blacksmith_sWorkshopRestApi
             services.AddTransient<IOrderLogic, OrderLogic>();
             services.AddTransient<IProductLogic, ProductLogic>();
             services.AddTransient<MainLogic>();
+            services.AddTransient<IMessageInfoLogic, MessageInfoLogic>();
             services.AddControllers().AddNewtonsoftJson();
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

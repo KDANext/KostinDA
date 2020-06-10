@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace BlacksmithsWorkshopDatebaseImplement.Migrations
+namespace Blacksmith_sWorkshopDatebaseImplement.Migrations
 {
     [DbContext(typeof(BlacksmithsWorkshopDatebase))]
-    [Migration("20200406125646_lab5")]
-    partial class lab5
+    [Migration("20200518072105_lab7")]
+    partial class lab7
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,33 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                 .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.MessageInfo", b =>
+                {
+                    b.Property<string>("MessageId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Body")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateDelivery")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("SenderName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("MessageId");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("MessageInfoes");
+                });
 
             modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Billet", b =>
                 {
@@ -61,6 +88,28 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Implementer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ImplementerFIO")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PauseTime")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WorkingTime")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Implementers");
+                });
+
             modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -80,6 +129,12 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                     b.Property<DateTime?>("DateImplement")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool?>("FreeOrders")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ImplementerId")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
@@ -92,6 +147,8 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("ImplementerId");
 
                     b.HasIndex("ProductId");
 
@@ -142,6 +199,13 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                     b.ToTable("ProductBillets");
                 });
 
+            modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.MessageInfo", b =>
+                {
+                    b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Client", "Client")
+                        .WithMany("MessageInfos")
+                        .HasForeignKey("ClientId");
+                });
+
             modelBuilder.Entity("Blacksmith_sWorkshopDatebaseImplement.Models.Order", b =>
                 {
                     b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Client", "Client")
@@ -149,6 +213,10 @@ namespace BlacksmithsWorkshopDatebaseImplement.Migrations
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Implementer", "Implementer")
+                        .WithMany("Orders")
+                        .HasForeignKey("ImplementerId");
 
                     b.HasOne("Blacksmith_sWorkshopDatebaseImplement.Models.Product", "Product")
                         .WithMany("Orders")
