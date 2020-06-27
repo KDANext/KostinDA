@@ -13,6 +13,11 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
 {
     public class StorageLogic : IStorageLogic
     {
+        private readonly IProductLogic productLogic;
+        public StorageLogic(IProductLogic productLogic)
+        {
+            this.productLogic = productLogic;
+        }
         public void CreateOrUpdate(StorageBindingModel model)
         {
             using (var context = new BlacksmithsWorkshopDatebase())
@@ -75,50 +80,6 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
             }
         }
 
-        public bool Removebillets(OrderViewModel order)
-        {
-            using (var context = new BlacksmithsWorkshopDatebase())
-            {
-                using (var transaction = context.Database.BeginTransaction())
-                {
-                    try
-                    {
-                        var dressbillets = context.ProductBillets.Where(dm => dm.ProductId == order.ProductId).ToList();
-                        var storagebillets = context.StorageBillets.ToList();
-                        foreach (var billet in dressbillets)
-                        {
-                            var billetCount = billet.Count * order.Count;
-                            foreach (var sm in storagebillets)
-                            {
-                                if (sm.BilletId == billet.BilletId && sm.Count >= billetCount)
-                                {
-                                    sm.Count -= billetCount;
-                                    billetCount = 0;
-                                    context.SaveChanges();
-                                    break;
-                                }
-                                else if (sm.BilletId == billet.BilletId && sm.Count < billetCount)
-                                {
-                                    billetCount -= sm.Count;
-                                    sm.Count = 0;
-                                    context.SaveChanges();
-                                }
-                            }
-                            if (billetCount > 0)
-                                throw new Exception("Не хватает материалов на складах!");
-                        }
-                        transaction.Commit();           
-                        return true;
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        throw;
-                    }
-                }
-            }
-        }
-
         public void AddBilletToStorage(StorageAddBilletBindingModel model)
         {
             using (var context = new BlacksmithsWorkshopDatebase())
@@ -166,5 +127,30 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
                 context.SaveChanges();
             }
         }
+
+        public bool CheckingStoragedBillet(int ProductId, int ProductCount)
+        {
+            var storages = Read(null);
+            var ProductBillet = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0].ProductBillets;
+            var BilletStorages = new Dictionary<int, int>(); // Ключ,Количество
+            foreach (var storage in storages)
+            {
+                foreach (var sm in storage.StoragedBillets)
+                {
+                    if (BilletStorages.ContainsKey(sm.Key))
+                        BilletStorages[sm.Key] += sm.Value.Item2;
+                    else
+                        BilletStorages.Add(sm.Key, sm.Value.Item2);
+                }
+            }
+
+            foreach (var dm in ProductBillet)
+            {
+                if (!BilletStorages.ContainsKey(dm.Key) || BilletStorages[dm.Key] < dm.Value.Item2 * ProductCount)
+                    return false;
+            }
+            return true;
+        }
+    }
     }
 }
