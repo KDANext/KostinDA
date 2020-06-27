@@ -44,7 +44,7 @@ namespace Blacksmith_sWorkshopView
             if (comboBoxBillet.Text == string.Empty)
                 throw new Exception("Введите количество заготовок");
 
-            mainLogic.AddBillets(new StorageAddBilletBindingModel()
+            storageLogic.AddBilletToStorage(new StorageAddBilletBindingModel()
             {
                 StorageId = (comboBoxStorage.SelectedItem as StorageViewModel).Id,
                 BilletId = (comboBoxBillet.SelectedItem as BilletViewModel).Id,
@@ -65,7 +65,7 @@ namespace Blacksmith_sWorkshopView
             if (textBoxCount.Text == string.Empty)
                 throw new Exception("Введите количество заготовок");
 
-            mainLogic.AddBillets(new StorageAddBilletBindingModel()
+            storageLogic.AddBilletToStorage(new StorageAddBilletBindingModel()
             {
                 StorageId = (comboBoxStorage.SelectedItem as StorageViewModel).Id,
                 BilletId = (comboBoxBillet.SelectedItem as BilletViewModel).Id,
