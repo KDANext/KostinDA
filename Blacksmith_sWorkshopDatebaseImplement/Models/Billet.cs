@@ -10,6 +10,6 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
         [Required]
         public string BilletName { get; set; }
         [ForeignKey("BilletId")]
-        public virtual List<ProductBillet> ProductBillets { get; set; }
+        public virtual List<ProductBillet> ProductBillets { get; set; }        public virtual List<StorageBillet> StorageBillets { get; set; }
     }
 }
