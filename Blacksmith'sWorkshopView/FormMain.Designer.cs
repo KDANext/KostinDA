@@ -59,7 +59,7 @@
             this.создатьБекапToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(1531, 24);
+            this.menuStrip2.Size = new System.Drawing.Size(1248, 24);
             this.menuStrip2.TabIndex = 1;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -152,12 +152,12 @@
             this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView.Location = new System.Drawing.Point(12, 27);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(1344, 411);
+            this.dataGridView.Size = new System.Drawing.Size(1061, 411);
             this.dataGridView.TabIndex = 2;
             // 
             // buttonCreateOrder
             // 
-            this.buttonCreateOrder.Location = new System.Drawing.Point(1362, 36);
+            this.buttonCreateOrder.Location = new System.Drawing.Point(1079, 27);
             this.buttonCreateOrder.Name = "buttonCreateOrder";
             this.buttonCreateOrder.Size = new System.Drawing.Size(157, 21);
             this.buttonCreateOrder.TabIndex = 3;
@@ -167,7 +167,7 @@
             // 
             // buttonPayOrder
             // 
-            this.buttonPayOrder.Location = new System.Drawing.Point(1362, 117);
+            this.buttonPayOrder.Location = new System.Drawing.Point(1079, 56);
             this.buttonPayOrder.Name = "buttonPayOrder";
             this.buttonPayOrder.Size = new System.Drawing.Size(157, 21);
             this.buttonPayOrder.TabIndex = 6;
@@ -177,7 +177,7 @@
             // 
             // buttonRef
             // 
-            this.buttonRef.Location = new System.Drawing.Point(1362, 144);
+            this.buttonRef.Location = new System.Drawing.Point(1079, 83);
             this.buttonRef.Name = "buttonRef";
             this.buttonRef.Size = new System.Drawing.Size(157, 21);
             this.buttonRef.TabIndex = 7;
@@ -196,7 +196,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1531, 450);
+            this.ClientSize = new System.Drawing.Size(1248, 450);
             this.Controls.Add(this.buttonRef);
             this.Controls.Add(this.buttonPayOrder);
             this.Controls.Add(this.buttonCreateOrder);
