@@ -10,7 +10,7 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Models
         public string ProductName { get; set; }
         [Required]
         public decimal Price { get; set; }
-        public virtual List<ProductBillet> ForgeProductBillets { get; set; }
+        public virtual List<ProductBillet> ProductBillets { get; set; }
         public virtual List<Order> Orders { get; set; }
     }
 }
