@@ -1,7 +1,5 @@
 ﻿using Blacksmith_sWorkshopListImplement.Models;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Blacksmith_sWorkshopListImplement
 {
@@ -16,12 +14,18 @@ namespace Blacksmith_sWorkshopListImplement
         public List<Product> Products { get; set; }
 
         public List<ProductBillet> ProductBillets { get; set; }
+        public List<Storage> Storages { get; set; }
+        public List<StorageBillet> StorageBillets { get; set; }
 
-        private DataListSingleton() {
+        private DataListSingleton()
+        {
             Billets = new List<Billet>();
             Orders = new List<Order>();
             Products = new List<Product>();
-            ProductBillets = new List<ProductBillet>(); }
+            ProductBillets = new List<ProductBillet>();
+            Storages = new List<Storage>();
+            StorageBillets = new List<StorageBillet>();
+        }
 
         public static DataListSingleton GetInstance()
         {

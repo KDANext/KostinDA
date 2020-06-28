@@ -1,10 +1,7 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BusinessLogics;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
-using Blacksmith_sWorkshopListImplement.Implements;
+using BlacksmithsWorkshopDatebaseImplement.Implements;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Unity;
 using Unity.Lifetime;
@@ -34,6 +31,8 @@ namespace Blacksmith_sWorkshopView
             currentContainer.RegisterType<IProductLogic, ProductLogic>(new
            HierarchicalLifetimeManager());
             currentContainer.RegisterType<MainLogic>(new HierarchicalLifetimeManager());
+            currentContainer.RegisterType<IStorageLogic, StorageLogic>(new
+           HierarchicalLifetimeManager());
             return currentContainer;
         }
     }

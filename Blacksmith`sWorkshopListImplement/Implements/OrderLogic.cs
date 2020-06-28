@@ -1,5 +1,4 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
-using Blacksmith_sWorkshopBusinessLogic.BindingModels;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopListImplement.Models;
@@ -25,10 +24,6 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             };
             foreach (var order in source.Orders)
             {
-                if (order.DateCreate == model.DateCreate && order.Count == model.Count && order.ProductId == model.ProductId && order.Sum == model.Sum && order.Status == model.Status && order.Id != model.Id)
-                {
-                    throw new Exception("Такой заказ уже есть");
-                }
                 if (!model.Id.HasValue && order.Id >= tempOrder.Id)
                 {
                     tempOrder.Id = order.Id + 1;
