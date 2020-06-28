@@ -11,6 +11,5 @@ namespace Blacksmith_sWorkshopBusinessLogic.Intefaces
         void Delete(StorageBindingModel model);
         void AddBilletToStorage(StorageAddBilletBindingModel model);
         void RemoveBillet(int ProductId, int ProductCount);
-        bool CheckingStoragedBillet(int ProductId, int ProductCount);
     }
 }

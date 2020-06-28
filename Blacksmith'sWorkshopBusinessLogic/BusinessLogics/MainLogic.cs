@@ -35,8 +35,7 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
             {
                 throw new Exception("Не найден заказ");
             }
-            if (storageLogic.CheckingStoragedBillet(order.ProductId, order.Count))
-            {
+            try { 
                 if (order.Status != OrderStatus.Принят)
                 {
                     throw new Exception("Заказ не в статусе \"Принят\"");
@@ -52,9 +51,10 @@ namespace Blacksmith_sWorkshopBusinessLogic.BusinessLogics
                     Status = OrderStatus.Выполняется
                 });
                 storageLogic.RemoveBillet(order.ProductId, order.Count);
-            }
-            else
+            } catch
+            {
                 throw new Exception("Не хватает заготовок на складах!");
+            }
         }
         public void FinishOrder(ChangeStatusBindingModel model)
         {

@@ -105,26 +105,42 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
             {
                 using (var transaction = context.Database.BeginTransaction())
                 {
-                    var ProductBillets = context.ProductBillets.Where(q => q.ProductId == ProductId);
-                    foreach (var q in ProductBillets)
+                    var product = productLogic.Read(new ProductBindingModel() { Id = ProductId })[0];
+                    var listBillet = product.ProductBillets.Select(x=> new BilletCountBindingModel() { BilletId = x.Key, Count = x.Value.Item2 * ProductCount }).ToList();
+
+                    try
                     {
-                        int BilletCount = q.Count * ProductCount;
-                        foreach (var w in context.StorageBillets)
+                        foreach (var componentCount in listBillet)
                         {
-                            if (w.BilletId == q.BilletId && w.Count >= BilletCount)
+                            bool discounted = false;
+                            foreach (var storageComponent in context.StorageBillets
+                                .Where(x => componentCount.BilletId == x.BilletId))
                             {
-                                w.Count -= BilletCount;
-                                break;
+                                // Количество компонента на складе
+                                int storageCount = storageComponent.Count;
+                                // Сколько необходимо списать
+                                int needCount = componentCount.Count;
+                                // Сколько можем списать
+                                int canDiscount = storageCount >= needCount ? needCount : storageCount;
+                                storageComponent.Count -= canDiscount;
+                                componentCount.Count -= canDiscount;
+                                // Если списали, сколько хотели, то переходим к следующему компоненту
+                                discounted = componentCount.Count == 0;
                             }
-                            else if (w.BilletId == q.BilletId && w.Count < BilletCount)
+                            if (!discounted)
                             {
-                                BilletCount -= w.Count;
-                                w.Count = 0;
+                                throw new Exception("Не получилось списать компонент по причине его нехватки.");
                             }
                         }
+                        context.SaveChanges();
+                        transaction.Commit();
+                    }
+                    catch (Exception)
+                    {
+                        transaction.Rollback();
+                        throw;
                     }
                 }
-                context.SaveChanges();
             }
         }
 
@@ -152,5 +168,5 @@ namespace BlacksmithsWorkshopDatebaseImplement.Implements
             return true;
         }
     }
-    }
 }
+
