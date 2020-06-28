@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Blacksmith_sWorkshopListImplement</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Blacksmith'sWorkshopBusinessLogic\Blacksmith'sWorkshopBusinessLogic.csproj" />
+  </ItemGroup>
+
+</Project>
