@@ -57,7 +57,7 @@ namespace Blacksmith_sWorkshopFileImplement.Implements
         public List<ClientViewModel> Read(ClientBindingModel model)
         {
             return source.Clients
-            .Where(rec => model == null || rec.Id == model.Id)
+            .Where(rec => model == null || rec.Id == model.Id || (rec.Login == model.Login && rec.Password == model.Password))
             .Select(rec => new ClientViewModel
             {
                 Id = rec.Id,
