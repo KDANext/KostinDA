@@ -76,6 +76,11 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                 {
                     if (order.Id == model.Id)
                     {
+                        if (model.DateFrom.HasValue && model.DateTo.HasValue && order.DateCreate >= model.DateFrom && order.DateCreate <= model.DateTo)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
                         result.Add(CreateViewModel(order));
                         break;
                     }
