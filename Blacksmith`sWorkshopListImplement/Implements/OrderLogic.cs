@@ -1,4 +1,5 @@
 ﻿using Blacksmith_sWorkshopBusinessLogic.BindingModels;
+using Blacksmith_sWorkshopBusinessLogic.Enums;
 using Blacksmith_sWorkshopBusinessLogic.Intefaces;
 using Blacksmith_sWorkshopBusinessLogic.ViewModels;
 using Blacksmith_sWorkshopListImplement.Models;
@@ -81,15 +82,25 @@ namespace Blacksmith_sWorkshopListImplement.Implements
                             result.Add(CreateViewModel(order));
                             continue;
                         }
+                        if (model.ClientId == order.ClientId)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.ImplementerId.HasValue && order.ImplementerId == model.ImplementerId && order.Status == OrderStatus.Выполняется)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
+                        if (model.FreeOrders.HasValue && model.FreeOrders.Value && !order.ImplementerId.HasValue)
+                        {
+                            result.Add(CreateViewModel(order));
+                            continue;
+                        }
                         result.Add(CreateViewModel(order));
                         break;
                     }
-                    else if (order.ClientId == model.ClientId)
-                    {
-                        result.Add(CreateViewModel(order));
-                    }
                     continue;
-
                 }
                 result.Add(CreateViewModel(order));
             }
