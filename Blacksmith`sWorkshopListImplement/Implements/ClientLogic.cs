@@ -69,7 +69,7 @@ namespace Blacksmith_sWorkshopListImplement.Implements
             {
                 if (model != null)
                 {
-                    if (Client.Id == model.Id)
+                    if (model.Id == model.Id || (model.Login == model.Login && model.Password == model.Password))
                     {
                         result.Add(CreateViewModel(Client));
                         break;

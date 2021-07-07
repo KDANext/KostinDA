@@ -14,7 +14,11 @@ namespace Blacksmith_sWorkshopDatebaseImplement.Implements
         {
             using (var context = new BlacksmithsWorkshopDatebase())
             {
-                Implementer element;                
+                Implementer element = context.Implementers.FirstOrDefault(rec => rec.ImplementerFIO == model.ImplementerFIO && rec.Id != model.Id);
+                if (element != null)
+                {
+                    throw new Exception("Уже есть работник с таким именем");
+                }
                 if (model.Id.HasValue)
                 {
                     element = context.Implementers.FirstOrDefault(rec => rec.Id == model.Id);

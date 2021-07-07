@@ -17,12 +17,17 @@ namespace Blacksmith_sWorkshopListImplement.Implements
         }
         public void CreateOrUpdate(ImplementerBindingModel model)
         {
+
             Implementer tempImplementer = model.Id.HasValue ? null : new Implementer
             {
                 Id = 1
             };
             foreach (var Implementer in source.Implementers)
             {
+                if (Implementer.ImplementerFIO == model.ImplementerFIO && Implementer.Id != model.Id)
+                {
+                    throw new Exception("Уже есть испольнитель с таким ФИО");
+                }
                 if (!model.Id.HasValue && Implementer.Id >= tempImplementer.Id)
                 {
                     tempImplementer.Id = Implementer.Id + 1;
